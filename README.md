@@ -17,7 +17,7 @@ cr.login("email", "password")
 ```
 cr.search("Demon Slayer")
 ```
-### Check the dict it returns, and do what every you want, like getting seasons
+### Check the dict it returns, and do whatever you want, like getting seasons
 ```
 cr.get_seasons(series_id)
 ```
