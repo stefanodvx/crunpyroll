@@ -1,4 +1,4 @@
-# Crunchyroll BETA API
+# Crunchyroll BETA API (and Downloader)
 ## Installation ⚙️
 ```
 pip install git+https://github.com/stefanodvx/crunchyroll@main
@@ -29,7 +29,7 @@ cr.get_episodes(season_id)
 ```
 cr.get_streams(episode)
 ```
-### Finally, get formats (pass the dict get_streams() returns)
+### Finally, get formats (pass the dict get_streams() returns), then download m3u8 with yt-dlp or sum
 ```
 cr.get_formats(streams)
 ```
