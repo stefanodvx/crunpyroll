@@ -33,7 +33,9 @@ cr.get_streams(episode)
 ```
 cr.get_formats(streams)
 ```
-## For every function, except login, you can pass
-## "locale" argument (like us-US, en-ES). Default to: it-IT.
-## You can only get HARDSUBS, I could change this but Im not interested
-## in continuing this project for now, PRs are welcome :D
+For every function, except login, you can pass
+"locale" argument (like us-US, en-ES). Default to: it-IT.
+You can only get HARDSUBS, I could change this but Im not interested
+in continuing this project for now, PRs are welcome :D
+
+Note: This API its mobile based, so Cloudflare is not a problem. Also its not restricted on servers.
