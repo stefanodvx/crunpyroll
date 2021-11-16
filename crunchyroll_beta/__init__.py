@@ -112,8 +112,8 @@ class Crunchyroll():
         if r.status_code == 200:
             return r.json()
 
-    def get_formats(self, streams: Dict) -> Optional[List]:
-        video_url = streams["streams"]["adaptive_hls"]["it-IT"]["url"]
+    def get_formats(self, streams: Dict, locale: str="it-IT") -> Optional[List]:
+        video_url = streams["streams"]["adaptive_hls"][locale]["url"]
         hls_streams = requests.get(video_url).text
         items = hls_streams.split("#EXT-X-STREAM")
         formats = []
