@@ -1,10 +1,10 @@
-# Crunchyroll BETA API (and Downloader)
+# Crunchyroll BETA API
 ## Installation ⚙️
 ```
 pip install git+https://github.com/stefanodvx/crunchyroll@main
 ```
 
-## Basic Usage ❓
+## Example Code ❓
 ### This API requires an account, and works only on Crunchyroll BETA!
 ### First of all, import all stuff and login
 ```
@@ -12,30 +12,13 @@ from crunchyroll_beta import Crunchyroll
 cr = Crunchyroll()
 
 cr.login("email", "password")
+series_id = "GY5P48XEY" # cr.search("Demon Slayer")
+season_id = cr.get_seasons(series_id)[2]["id"]
+episodes = cr.get_episodes(season_id)
+streams = cr.get_streams(episodes[0])
+url = streams["streams"]["adaptive_hls"]["us-US"]["url"] # m3u8 url
 ```
-### To get a SERIES_ID, just use search function
-```
-cr.search("Demon Slayer")
-```
-### Check the dict it returns, and do whatever you want, like getting seasons
-```
-cr.get_seasons(series_id)
-```
-### From there get your SEASON_ID and get episodes
-```
-cr.get_episodes(season_id)
-```
-### Now let's get streams from an episode (pass the dict get_episodes() returns)
-```
-cr.get_streams(episode)
-```
-### Finally, get formats (pass the dict get_streams() returns), then download m3u8 with yt-dlp or sum
-```
-cr.get_formats(streams)
-```
-For every function, except login, you can pass
-"locale" argument (like us-US, en-ES). Default to: it-IT.
-You can only get HARDSUBS, I could change this but Im not interested
-in continuing this project for now, PRs are welcome :D
 
-Note: This API its mobile based, so Cloudflare is not a problem. Also its not restricted on servers.
+### You can get DASH, HLS,
+### raws, subtitles only, hardsubbed videos...
+### Just explore the API yourself and have fun!
