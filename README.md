@@ -16,7 +16,7 @@ series_id = "GY5P48XEY" # cr.search("Demon Slayer")
 season_id = cr.get_seasons(series_id)[2]["id"]
 episodes = cr.get_episodes(season_id)
 streams = cr.get_streams(episodes[0])
-url = streams["streams"]["adaptive_hls"]["us-US"]["url"] # m3u8 url
+url = streams["streams"]["adaptive_hls"]["en-US"]["url"] # m3u8 url
 ```
 
 ### You can get DASH, HLS,

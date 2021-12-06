@@ -26,11 +26,11 @@ class Crunchyroll():
     Parameters:
         locale (``str``, optional):
             The language to use in Crunchyroll
-            E.g.: us-US, it-IT...
-            Default to us-US
+            E.g.: en-US, it-IT...
+            Default to en-US
     """
 
-    def __init__(self, locale="us-US") -> None:
+    def __init__(self, locale="en-US") -> None:
         self.locale = locale
 
     def login(self, username: str, password: str) -> None:
