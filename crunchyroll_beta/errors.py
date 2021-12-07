@@ -1,0 +1,2 @@
+class CrunchyrollError(Exception):
+    pass
