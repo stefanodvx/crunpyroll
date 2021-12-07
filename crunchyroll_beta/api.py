@@ -23,7 +23,7 @@ class Crunchyroll():
         self.locale = locale
         self.config = dict()
         self.api_headers = {
-            "User-Agent": "Crunchyroll/3.10.0 Android/6.0 okhttp/4.9.1",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
@@ -108,7 +108,7 @@ class Crunchyroll():
         )
         return r["items"]
 
-    def get_series(self, series_id: str) -> Optional[List]:
+    def get_series(self, series_id: str) -> Optional[Dict]:
         """Get info about a series
 
         Parameters:
@@ -116,7 +116,7 @@ class Crunchyroll():
                 ID of the series
 
         Returns:
-            ``List``: On success, list is returned
+            ``Dict``: On success, dictionary is returned
         """
         r = self._make_request(
             method="GET",
@@ -128,7 +128,6 @@ class Crunchyroll():
                 "locale": self.locale
             }
         )
-        #return self.mkobj(r, Series)
         return r
         
     def get_seasons(self, series_id: str) -> Optional[List]:
