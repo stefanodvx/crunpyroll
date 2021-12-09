@@ -3,6 +3,7 @@ import re
 
 from typing import Optional, List, Dict
 
+from .types import *
 from .endpoints import *
 from .errors import CrunchyrollError
 
@@ -26,6 +27,15 @@ class Crunchyroll():
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
             "Content-Type": "application/x-www-form-urlencoded"
         }
+
+    @staticmethod
+    def fixup(d):
+        if '' in d:
+            d["raw"] = d[""]
+            d.pop("")
+        for v in d.values():
+            if isinstance(v, dict):
+                Crunchyroll.fixup(v)
 
     def _make_request(self, method: str, url: str, headers: Dict=dict(), params=None, data=None) -> Optional[Dict]:
         headers.update(self.api_headers)
@@ -84,7 +94,7 @@ class Crunchyroll():
         self.config.update(r)
         return True
 
-    def search(self, query: str, n: int=6) -> Optional[List]:
+    def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
         """Search series
 
         Parameters:
@@ -95,7 +105,7 @@ class Crunchyroll():
                 Default to 6
 
         Returns:
-            ``List``: On success, list is returned
+            ``List``: On success, list of ``Collection`` is returned
         """
         r = self._make_request(
             method="GET",
@@ -106,9 +116,9 @@ class Crunchyroll():
                 "locale": self.locale
             }
         )
-        return r["items"]
+        return [Collection(**collection) for collection in r.get("items")] if not raw_json else r
 
-    def get_series(self, series_id: str) -> Optional[Dict]:
+    def get_series(self, series_id: str, raw_json=False) -> Optional[Series]:
         """Get info about a series
 
         Parameters:
@@ -116,7 +126,7 @@ class Crunchyroll():
                 ID of the series
 
         Returns:
-            ``Dict``: On success, dictionary is returned
+            ``Series``: On success, ``Series`` object is returned
         """
         r = self._make_request(
             method="GET",
@@ -128,9 +138,9 @@ class Crunchyroll():
                 "locale": self.locale
             }
         )
-        return r
+        return Series(**r) if not raw_json else r
         
-    def get_seasons(self, series_id: str) -> Optional[List]:
+    def get_seasons(self, series_id: str, raw_json=False) -> Optional[List[Season]]:
         """Get seasons of a series
 
         Parameters:
@@ -138,7 +148,7 @@ class Crunchyroll():
                 ID of the series
 
         Returns:
-            ``List``: On success, list is returned
+            ``List``: On success, list of ``Season`` is returned
         """
         r = self._make_request(
             method="GET",
@@ -151,9 +161,9 @@ class Crunchyroll():
                 "locale": self.locale
             }
         )
-        return r["items"]
+        return [Season(**season) for season in r.get("items")] if not raw_json else r
 
-    def get_episodes(self, season_id: str) -> Optional[List]:
+    def get_episodes(self, season_id: str, raw_json=False) -> Optional[List[Episode]]:
         """Get episodes of a series (from season)
 
         Parameters:
@@ -161,7 +171,7 @@ class Crunchyroll():
                 ID of a season
 
         Returns:
-            ``List``: On success, list is returned
+            ``List``: On success, list of ``Episode`` is returned
         """
         r = self._make_request(
             method="GET",
@@ -174,21 +184,19 @@ class Crunchyroll():
                 "locale": self.locale
             }
         )
-        return r["items"]
+        return [Episode(**episode) for episode in r.get("items")] if not raw_json else r
 
-    def get_streams(self, episode: Dict) -> Optional[Dict]:
+    def get_streams(self, episode: Episode, raw_json=False) -> Optional[StreamsInfo]:
         """Get streams from an episode
 
         Parameters:
-            episode (``Dict``):
+            episode (``Episode``):
                 Pass one of the items that ``get_episodes()`` returns
 
         Returns:
-            ``Dict``: On success, dictionary is returned
+            ``StreamsInfo``: On success, ``StreamsInfo`` object is returned
         """
-        stream_id = re.search(r"videos\/(.+?)\/streams",
-            episode["__links__"]["streams"]["href"]
-        ).group(1)
+        stream_id = re.search(r"videos\/(.+?)\/streams", episode.links.streams.href).group(1)
         r = self._make_request(
             method="GET",
             url=STREAMS_ENDPOINT.format(self.config["cms"]["bucket"], stream_id),
@@ -199,9 +207,13 @@ class Crunchyroll():
                 "locale": self.locale
             }
         )
-        return r
+        
+        # Fix empty key in video streams
+        Crunchyroll.fixup(r)
+    
+        return StreamsInfo(**r) if not raw_json else r
 
-    def get_similar(self, series_id: str, n: int=6) -> Optional[List]:
+    def get_similar(self, series_id: str, n: int=6, raw_json=False) -> Optional[List[Panel]]:
         """Get similar series
 
         Parameters:
@@ -212,7 +224,7 @@ class Crunchyroll():
                 Default to 6
 
         Returns:
-            ``List``: On success, list is returned
+            ``List``: On success, list of ``Panel`` is returned
         """
         r = self._make_request(
             method="GET",
@@ -223,9 +235,9 @@ class Crunchyroll():
                 "locale": self.locale
             }
         )
-        return r["items"]
+        return [Panel(**panel) for panel in  r.get("items")] if not raw_json else r
 
-    def news_feed(self, n: int=6) -> Optional[Dict]:
+    def news_feed(self, n: int=6, raw_json=False) -> Optional[NewsFeed]:
         """Get news feed
 
         Parameters:
@@ -234,7 +246,7 @@ class Crunchyroll():
                 Default to 6
 
         Returns:
-            ``Dict``: On success, dictionary is returned
+            ``NewsFeed``: On success, ``NewsFeed`` object is returned
         """
         r = self._make_request(
             method="GET",
@@ -244,4 +256,4 @@ class Crunchyroll():
                 "locale": self.locale
             }
         )
-        return r
+        return NewsFeed(**r) if not raw_json else r
