@@ -10,9 +10,9 @@ pip install git+https://github.com/stefanodvx/crunchyroll@main
 This API **requires an account**, and works only on Crunchyroll BETA!
 ```python3
 from crunchyroll_beta import Crunchyroll
-cr = Crunchyroll()
 
-cr.login("email", "password")
+cr = Crunchyroll("email", "password")
+
 series_id = "GY5P48XEY" # cr.search("Demon Slayer")
 season_id = cr.get_seasons(series_id)[2].id
 episode = cr.get_episodes(season_id)[0]
