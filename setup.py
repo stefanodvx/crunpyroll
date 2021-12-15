@@ -20,9 +20,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "requests",
+        "httpx",
         "pydantic",
-        'aiohttp',
     ],
     packages=setuptools.find_packages(),
     python_requires=">=3.6",
