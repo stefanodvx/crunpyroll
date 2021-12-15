@@ -3,9 +3,9 @@ import re
 
 from typing import Optional, List, Dict
 
-from .utils import *
-from .types import *
-from .errors import CrunchyrollError
+from ..utils import *
+from ..types import *
+from ..errors import CrunchyrollError
 
 class Crunchyroll:
     """Initialize Crunchyroll Client and login
@@ -29,37 +29,36 @@ class Crunchyroll:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
             "Content-Type": "application/x-www-form-urlencoded"
         }
-        
-    async def _make_request(self, method: str, url: str, headers: Dict=dict(), params=None, data=None, login=False) -> Optional[Dict]:
+
+    def _make_request(self, method: str, url: str, headers: Dict=dict(), params=None, data=None, login=False) -> Optional[Dict]:
         if not self.config and not login:
-            await self._login()
+            self._login()
         if not login:
-            await self._update_session()
+            self._update_session()
         headers.update(self.api_headers)
-        async with httpx.AsyncClient() as session:
-            r = await session.request(
-                method=method,
-                url=url,
-                headers=headers,
-                params=params,
-                data=data
-            )
-            code = r.status_code
-            r_json = r.json()
-            if "error" in r_json:
-                error_code = r_json.get("error")
-                if error_code == "invalid_grant":
-                    raise CrunchyrollError(f"[{code}] Invalid login credentials.")
-            elif "message" in r_json and "code" in r_json:
-                message = r_json.get("message")
-                raise CrunchyrollError(f"[{code}] Error occured: {message}")
-            if code != 200:
-                raise CrunchyrollError(f"[{code}] {r.text}")
-            return r_json
-        
-    async def _login(self) -> None:
+        r = httpx.request(
+            method,
+            url,
+            headers=headers,
+            params=params,
+            data=data
+        )
+        code = r.status_code
+        r_json = r.json()
+        if "error" in r_json:
+            error_code = r_json.get("error")
+            if error_code == "invalid_grant":
+                raise CrunchyrollError(f"[{code}] Invalid login credentials.")
+        elif "message" in r_json and "code" in r_json:
+            message = r_json.get("message")
+            raise CrunchyrollError(f"[{code}] Error occured: {message}")
+        if code != 200:
+            raise CrunchyrollError(f"[{code}] {r.text}")
+        return r_json
+
+    def _login(self) -> None:
         headers = {"Authorization": AUTHORIZATION}
-        r = await self._make_request(
+        r = self._make_request(
             method="POST",
             url=TOKEN_ENDPOINT,
             headers=headers,
@@ -76,19 +75,19 @@ class Crunchyroll:
         authorization = {"Authorization": f"{token_type} {access_token}"}
         self.config.update(r)
         self.api_headers.update(authorization)
-        r = await self._make_request(method="GET", url=INDEX_ENDPOINT, login=True)
+        r = self._make_request(method="GET", url=INDEX_ENDPOINT, login=True)
         self.config.update(r)
-        r = await self._make_request(method="GET", url=PROFILE_ENDPOINT, login=True)
+        r = self._make_request(method="GET", url=PROFILE_ENDPOINT, login=True)
         self.config.update(r)
 
-    async def _update_session(self):
+    def _update_session(self):
         if "cms" in self.config:
             current_time = get_date()
             expires_time = str_to_date(self.config["cms"]["expires"])
             if current_time > expires_time:
-                await self._login()
+                self._login()
 
-    async def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
+    def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
         """Search series
 
         Parameters:
@@ -101,7 +100,7 @@ class Crunchyroll:
         Returns:
             ``List``: On success, list of ``Collection`` is returned
         """
-        r = await self._make_request(
+        r = self._make_request(
             method="GET",
             url=SEARCH_ENDPOINT,
             params = {
@@ -112,7 +111,7 @@ class Crunchyroll:
         )
         return [Collection(**collection) for collection in r.get("items")] if not raw_json else r
 
-    async def get_series(self, series_id: str, raw_json=False) -> Optional[Series]:
+    def get_series(self, series_id: str, raw_json=False) -> Optional[Series]:
         """Get info about a series
 
         Parameters:
@@ -122,7 +121,7 @@ class Crunchyroll:
         Returns:
             ``Series``: On success, ``Series`` object is returned
         """
-        r = await self._make_request(
+        r = self._make_request(
             method="GET",
             url=SERIES_ENDPOINT.format(self.config["cms"]["bucket"], series_id),
             params = {
@@ -134,7 +133,7 @@ class Crunchyroll:
         )
         return Series(**r) if not raw_json else r
         
-    async def get_seasons(self, series_id: str, raw_json=False) -> Optional[List[Season]]:
+    def get_seasons(self, series_id: str, raw_json=False) -> Optional[List[Season]]:
         """Get seasons of a series
 
         Parameters:
@@ -144,7 +143,7 @@ class Crunchyroll:
         Returns:
             ``List``: On success, list of ``Season`` is returned
         """
-        r = await self._make_request(
+        r = self._make_request(
             method="GET",
             url=SEASONS_ENDPOINT.format(self.config["cms"]["bucket"]),
             params = {
@@ -157,7 +156,7 @@ class Crunchyroll:
         )
         return [Season(**season) for season in r.get("items")] if not raw_json else r
 
-    async def get_episodes(self, season_id: str, raw_json=False) -> Optional[List[Episode]]:
+    def get_episodes(self, season_id: str, raw_json=False) -> Optional[List[Episode]]:
         """Get episodes of a series (from season)
 
         Parameters:
@@ -167,7 +166,7 @@ class Crunchyroll:
         Returns:
             ``List``: On success, list of ``Episode`` is returned
         """
-        r = await self._make_request(
+        r = self._make_request(
             method="GET",
             url=EPISODES_ENDPOINT.format(self.config["cms"]["bucket"]),
             params = {
@@ -180,7 +179,7 @@ class Crunchyroll:
         )
         return [Episode(**episode) for episode in r.get("items")] if not raw_json else r
 
-    async def get_streams(self, episode: Episode, raw_json=False) -> Optional[StreamsInfo]:
+    def get_streams(self, episode: Episode, raw_json=False) -> Optional[StreamsInfo]:
         """Get streams from an episode
 
         Parameters:
@@ -191,7 +190,7 @@ class Crunchyroll:
             ``StreamsInfo``: On success, ``StreamsInfo`` object is returned
         """
         stream_id = re.search(r"videos\/(.+?)\/streams", episode.links.streams.href).group(1)
-        r = await self._make_request(
+        r = self._make_request(
             method="GET",
             url=STREAMS_ENDPOINT.format(self.config["cms"]["bucket"], stream_id),
             params = {
@@ -207,7 +206,7 @@ class Crunchyroll:
     
         return StreamsInfo(**r) if not raw_json else r
 
-    async def get_similar(self, series_id: str, n: int=6, raw_json=False) -> Optional[List[Panel]]:
+    def get_similar(self, series_id: str, n: int=6, raw_json=False) -> Optional[List[Panel]]:
         """Get similar series
 
         Parameters:
@@ -220,7 +219,7 @@ class Crunchyroll:
         Returns:
             ``List``: On success, list of ``Panel`` is returned
         """
-        r = await self._make_request(
+        r = self._make_request(
             method="GET",
             url=SIMILAR_ENDPOINT.format(self.config["account_id"]),
             params = {
@@ -231,7 +230,7 @@ class Crunchyroll:
         )
         return [Panel(**panel) for panel in  r.get("items")] if not raw_json else r
 
-    async def news_feed(self, n: int=6, raw_json=False) -> Optional[NewsFeed]:
+    def news_feed(self, n: int=6, raw_json=False) -> Optional[NewsFeed]:
         """Get news feed
 
         Parameters:
@@ -242,7 +241,7 @@ class Crunchyroll:
         Returns:
             ``NewsFeed``: On success, ``NewsFeed`` object is returned
         """
-        r = await self._make_request(
+        r = self._make_request(
             method="GET",
             url=NEWSFEED_ENDPOINT,
             params = {
@@ -252,7 +251,7 @@ class Crunchyroll:
         )
         return NewsFeed(**r) if not raw_json else r
 
-    async def browse(self, sort_by: str = "newly_added", n: int=6, raw_json=False) -> Optional[List[Panel]]:
+    def browse(self, sort_by: str = "newly_added", n: int=6, raw_json=False) -> Optional[List[Panel]]:
         """Browse Crunchyroll catalog
 
         Parameters:
@@ -266,7 +265,7 @@ class Crunchyroll:
         Returns:
             ``List``: On success, list of ``Panel`` is returned
         """
-        r = await self._make_request(
+        r = self._make_request(
             method="GET",
             url=BROWSE_ENDPOINT,
             params = {
