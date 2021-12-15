@@ -8,7 +8,7 @@ from ..types import *
 from ..errors import CrunchyrollError
 
 class Crunchyroll:
-    """Initialize Crunchyroll Client and login
+    """Initialize Crunchyroll Client
     
     Parameters:
         email (``str``):
@@ -30,9 +30,14 @@ class Crunchyroll:
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
+    def start(self):
+        """Start Crunchyroll and login"""
+        print(f"Starting Crunchyroll Client {version}!\nMade by stefanodvx | https://github.com/stefanodvx/crunchyroll")
+        self._login()
+
     def _make_request(self, method: str, url: str, headers: Dict=dict(), params=None, data=None, login=False) -> Optional[Dict]:
         if not self.config and not login:
-            self._login()
+            raise CrunchyrollError("Client is not started yet!")
         if not login:
             self._update_session()
         headers.update(self.api_headers)
@@ -70,8 +75,8 @@ class Crunchyroll:
             },
             login=True
         )
-        access_token = r["access_token"]
-        token_type = r["token_type"]
+        access_token = r.get("access_token")
+        token_type = r.get("token_type")
         authorization = {"Authorization": f"{token_type} {access_token}"}
         self.config.update(r)
         self.api_headers.update(authorization)
@@ -123,11 +128,11 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=SERIES_ENDPOINT.format(self.config["cms"]["bucket"], series_id),
+            url=SERIES_ENDPOINT.format(self.config.get("cms", {}).get("bucket"), series_id),
             params = {
-                "Policy": self.config["cms"]["policy"],
-                "Signature": self.config["cms"]["signature"],
-                "Key-Pair-Id": self.config["cms"]["key_pair_id"],
+                "Policy": self.config.get("cms", {}).get("policy"),
+                "Signature": self.config.get("cms", {}).get("signature"),
+                "Key-Pair-Id": self.config.get("cms", {}).get("key_pair_id"),
                 "locale": self.locale
             }
         )
@@ -145,12 +150,12 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=SEASONS_ENDPOINT.format(self.config["cms"]["bucket"]),
+            url=SEASONS_ENDPOINT.format(self.config.get("cms", {}).get("bucket")),
             params = {
                 "series_id": series_id,
-                "Policy": self.config["cms"]["policy"],
-                "Signature": self.config["cms"]["signature"],
-                "Key-Pair-Id": self.config["cms"]["key_pair_id"],
+                "Policy": self.config.get("cms", {}).get("policy"),
+                "Signature": self.config.get("cms", {}).get("signature"),
+                "Key-Pair-Id": self.config.get("cms", {}).get("key_pair_id"),
                 "locale": self.locale
             }
         )
@@ -168,12 +173,12 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=EPISODES_ENDPOINT.format(self.config["cms"]["bucket"]),
+            url=EPISODES_ENDPOINT.format(self.config.get("cms", {}).get("bucket")),
             params = {
                 "season_id": season_id,
-                "Policy": self.config["cms"]["policy"],
-                "Signature": self.config["cms"]["signature"],
-                "Key-Pair-Id": self.config["cms"]["key_pair_id"],
+                "Policy": self.config.get("cms", {}).get("policy"),
+                "Signature": self.config.get("cms", {}).get("signature"),
+                "Key-Pair-Id": self.config.get("cms", {}).get("key_pair_id"),
                 "locale": self.locale
             }
         )
@@ -192,11 +197,11 @@ class Crunchyroll:
         stream_id = re.search(r"videos\/(.+?)\/streams", episode.links.streams.href).group(1)
         r = self._make_request(
             method="GET",
-            url=STREAMS_ENDPOINT.format(self.config["cms"]["bucket"], stream_id),
+            url=STREAMS_ENDPOINT.format(self.config.get("cms", {}).get("bucket"), stream_id),
             params = {
-                "Policy": self.config["cms"]["policy"],
-                "Signature": self.config["cms"]["signature"],
-                "Key-Pair-Id": self.config["cms"]["key_pair_id"],
+                "Policy": self.config.get("cms", {}).get("policy"),
+                "Signature": self.config.get("cms", {}).get("signature"),
+                "Key-Pair-Id": self.config.get("cms", {}).get("key_pair_id"),
                 "locale": self.locale
             }
         )
@@ -221,7 +226,7 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=SIMILAR_ENDPOINT.format(self.config["account_id"]),
+            url=SIMILAR_ENDPOINT.format(self.config.get("account_id")),
             params = {
                 "guid": series_id,
                 "n": str(n),

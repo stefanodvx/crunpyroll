@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import Dict
 
+version = "1.3.1"
+
 INDEX_ENDPOINT = "https://beta-api.crunchyroll.com/index/v2"
 PROFILE_ENDPOINT = "https://beta-api.crunchyroll.com/accounts/v1/me/profile"
 TOKEN_ENDPOINT = "https://beta-api.crunchyroll.com/auth/v1/token"
