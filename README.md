@@ -13,6 +13,7 @@ from crunchyroll_beta.sync import Crunchyroll
 
 cr = Crunchyroll("email", "password")
 
+cr.start()
 series_id = "GY5P48XEY" # cr.search("Demon Slayer")
 season_id = cr.get_seasons(series_id)[2].id
 episode = cr.get_episodes(season_id)[0]
@@ -26,6 +27,7 @@ import asyncio
 cr = Crunchyroll("email", "password")
 
 async def main():
+    await cr.start()
     series_id = "GY5P48XEY"
     title = (await cr.get_seasons(series_id))[2].title
     print(title)
