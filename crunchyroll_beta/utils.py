@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Dict
 
-version = "1.3.1"
+version = "1.3.2"
 
 INDEX_ENDPOINT = "https://beta-api.crunchyroll.com/index/v2"
 PROFILE_ENDPOINT = "https://beta-api.crunchyroll.com/accounts/v1/me/profile"
@@ -15,6 +15,8 @@ SIMILAR_ENDPOINT = "https://beta-api.crunchyroll.com/content/v1/{}/similar_to"
 NEWSFEED_ENDPOINT = "https://beta-api.crunchyroll.com/content/v1/news_feed"
 BROWSE_ENDPOINT = "https://beta-api.crunchyroll.com/content/v1/browse"
 AUTHORIZATION = "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k="
+
+PLAYLIST_REG = r"\#EXT\-X\-STREAM\-INF\:PROGRAM\-ID\=\d+\,BANDWIDTH\=(\d+)\,RESOLUTION\=(\d+)x(\d+)\,FRAME-RATE\=(.+)\,CODECS\=\"(.+)\""
 
 def fixup(d: Dict):
     if '' in d:

@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="crunchyroll-beta",
-    version="1.3.1",
+    version="1.3.2",
     author="stefanodvx",
     author_email="pp.stefanodvx@gmail.com",
     description="API for Crunchyroll BETA",

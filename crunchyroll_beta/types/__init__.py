@@ -1,6 +1,14 @@
 from typing import Dict, List
 from pydantic import BaseModel, Field
 
+class PlaylistItem(BaseModel):
+    url: str = Field(default=None)
+    bandwidth: int = Field(default=None)
+    width: int = Field(default=None)
+    height: int = Field(default=None)
+    framerate: str = Field(default=None)
+    codecs: str = Field(default=None)
+
 class Image(BaseModel):
     width: int = Field(default=None)
     height: int = Field(default=None)

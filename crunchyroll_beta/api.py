@@ -32,7 +32,7 @@ class Crunchyroll:
 
     async def start(self):
         """Start Crunchyroll and login"""
-        print(f"Starting Crunchyroll Client {version}!\nMade by stefanodvx | https://github.com/stefanodvx/crunchyroll")
+        print(f"Starting Crunchyroll Client {version}!\nMade by stefanodvx | https://github.com/stefanodvx/crunchyroll\n")
         await self._login()
         
     async def _make_request(self, method: str, url: str, headers: Dict=dict(), params=None, data=None, login=False) -> Optional[Dict]:
@@ -281,3 +281,30 @@ class Crunchyroll:
             }
         )
         return [Panel(**panel) for panel in  r.get("items")] if not raw_json else r
+
+    async def get_formats(self, url: str) -> Optional[List[PlaylistItem]]:
+        """Get formats in a playlist
+
+        Parameters:
+            url (``str``):
+                URL of the m3u8 playlist
+
+        Returns:
+            ``List``: On success, list of ``PlaylistItem`` is returned
+        """
+        formats = list()
+        async with httpx.AsyncClient() as session:
+            r = await session.get(url)
+        lines = r.text.split("\n")
+        for i, line in enumerate(lines, 1):
+            regesp = re.match(PLAYLIST_REG, line.strip())
+            if regesp:
+                formats.append({
+                    "url": lines[i].strip(),
+                    "bandwidth": int(regesp.group(1)),
+                    "width": int(regesp.group(2)),
+                    "height": int(regesp.group(3)),
+                    "framerate": regesp.group(4),
+                    "codecs": regesp.group(5)
+                })
+        return [PlaylistItem(**frmt) for frmt in formats]
