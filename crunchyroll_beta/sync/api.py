@@ -20,15 +20,12 @@ class Crunchyroll:
             E.g.: en-US, it-IT...
             Default to en-US
     """
-    def __init__(self, email, password, locale: str="en-US") -> None:
-        self.email = email
-        self.password = password
-        self.locale = locale
-        self.config = dict()
-        self.api_headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
+    def __init__(self, email: str, password: str, locale: str="en-US") -> None:
+        self.email: str = email
+        self.password: str = password
+        self.locale: str = locale
+        self.config: Dict = dict()
+        self.api_headers: Dict = headers()
 
     def start(self):
         """Start Crunchyroll and login"""
@@ -90,6 +87,8 @@ class Crunchyroll:
             current_time = get_date()
             expires_time = str_to_date(self.config["cms"]["expires"])
             if current_time > expires_time:
+                self.api_headers = headers()
+                self.config = dict()
                 self._login()
 
     def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
