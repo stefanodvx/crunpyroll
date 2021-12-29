@@ -1,7 +1,7 @@
 Welcome to Crunchyroll-BETA's documentation!
 ===================================
 
-Check out the :doc:`usage` section for further information, including
+Navigate docs from sections at your left!
 
 .. note::
 
