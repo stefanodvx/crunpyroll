@@ -1,7 +1,11 @@
 from datetime import datetime
 from typing import Dict
 
-version = "1.3.3"
+from requests.models import Response
+
+from .errors import CrunchyrollError
+
+version = "1.4"
 
 INDEX_ENDPOINT = "https://beta-api.crunchyroll.com/index/v2"
 PROFILE_ENDPOINT = "https://beta-api.crunchyroll.com/accounts/v1/me/profile"
@@ -23,6 +27,20 @@ def headers() -> Dict:
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
         "Content-Type": "application/x-www-form-urlencoded"
     }
+
+def get_json(r: Response) -> Dict:
+    code: int = r.status_code
+    r_json: Dict = r.json()
+    if "error" in r_json:
+        error_code = r_json.get("error")
+        if error_code == "invalid_grant":
+            raise CrunchyrollError(f"[{code}] Invalid login credentials.")
+    elif "message" in r_json and "code" in r_json:
+        message = r_json.get("message")
+        raise CrunchyrollError(f"[{code}] Error occured: {message}")
+    if code != 200:
+        raise CrunchyrollError(f"[{code}] {r.text}")
+    return r_json
 
 def fixup(d: Dict):
     if '' in d:
