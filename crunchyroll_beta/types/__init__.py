@@ -1,14 +1,9 @@
 from typing import Dict, List
-import json
+from json import dumps
 
 class Object:
     def __str__(self):
-        return json.dumps(
-            self,
-            indent=4,
-            default=lambda x: x.__dict__,
-            ensure_ascii=False
-        )
+        dumps(self, indent=4, default=lambda x: x.__dict__, ensure_ascii=False)
 
 class PlaylistItem(Object):
     def __init__(self, data: dict):
@@ -42,7 +37,7 @@ class SeriesMetadata(Object):
         self.is_simulcast: bool = data.get("is_simulcast")
         self.is_subbed: bool = data.get("is_subbed")
         self.mature_blocked: bool = data.get("mature_blocked")
-        self.maturity_ratings: List[str] = data.get("maturity_ratings", list())
+        self.maturity_ratings: List[str] = data.get("maturity_ratings", [])
         self.season_count: int = data.get("season_count")
 
 class SearchMetadata(Object):
@@ -65,7 +60,7 @@ class NewsItems(Object):
 class News(Object):
     def __init__(self, data: dict):
         self.total: int = data.get("total")
-        self.items: List[NewsItems] = [NewsItems(item) for item in data.get("items", list())]
+        self.items: List[NewsItems] = [NewsItems(item) for item in data.get("items", [])]
 
 class Series(Object):
     def __init__(self, data: dict):
@@ -76,10 +71,10 @@ class Series(Object):
         self.slug_title: str = data.get("slug_title")
         self.description: str = data.get("description")
         self.extended_description: str = data.get("extended_description")
-        self.keywords: List[str] = data.get("keywords", list())
-        self.season_tags: List[str] = data.get("season_tags", list())
-        self.images: Images = Images(data.get("images"))
-        self.maturity_ratings: List[str] = data.get("maturity_ratings", list())
+        self.keywords: List[str] = data.get("keywords", [])
+        self.season_tags: List[str] = data.get("season_tags", [])
+        self.images: Images = Images(data.get("images", {}))
+        self.maturity_ratings: List[str] = data.get("maturity_ratings", [])
         self.episode_count: int = data.get("episode_count")
         self.season_count: int = data.get("season_count")
         self.media_count: int = data.get("media_count")
@@ -100,15 +95,15 @@ class Panel(Object):
         self.external_id: str = data.get("external_id")
         self.id: str = data.get("id")
         self.type: str = data.get("type")
-        self.images: Images = Images(data.get("images"))
+        self.images: Images = Images(data.get("images", {}))
         self.last_public: str = data.get("last_public")
         self.linked_resource_key: str = data.get("linked_resource_key")
         self.new: bool = data.get("new")
         self.new_content: bool = data.get("new_content")
         self.promo_description: str = data.get("promo_description")
         self.promo_title: str = data.get("promo_title")
-        self.search_metadata: SearchMetadata = SearchMetadata(data.get("search_metadata"))
-        self.series_metadata: SeriesMetadata = SearchMetadata(data.get("series_metadata"))
+        self.search_metadata: SearchMetadata = SearchMetadata(data.get("search_metadata", {}))
+        self.series_metadata: SeriesMetadata = SeriesMetadata(data.get("series_metadata", {}))
         self.slug: str = data.get("slug")
         self.slug_title: str = data.get("slug_title")
         self.title: str = data.get("title")
@@ -117,12 +112,12 @@ class Collection(Object):
     def __init__(self, data: dict):
         self.type: str = data.get("type")
         self.total: int = data.get("total")
-        self.items: List[Panel] = [Panel(item) for item in data.get("items", list())]
+        self.items: List[Panel] = [Panel(item) for item in data.get("items", [])]
 
 class NewsFeed(Object):
     def __init__(self, data: dict):
-        self.top_news: News = data.get("top_news")
-        self.latest_news: News = data.get("latest_news")
+        self.top_news: News = News(data.get("top_news", {}))
+        self.latest_news: News = News(data.get("latest_news", {}))
 
 class Season(Object):
     def __init__(self, data: dict):
@@ -134,8 +129,8 @@ class Season(Object):
         self.season_number: int = data.get("season_number")
         self.is_complete: bool = data.get("is_complete")
         self.description: str = data.get("description")
-        self.keywords: List[str] = data.get("keywords", list())
-        self.season_tags: List[str] = data.get("season_tags", list())
+        self.keywords: List[str] = data.get("keywords", [])
+        self.season_tags: List[str] = data.get("season_tags", [])
         self.images: Dict = data.get("images")
         self.is_mature: bool = data.get("is_mature")
         self.mature_blocked: bool = data.get("mature_blocked")
@@ -148,15 +143,15 @@ class Season(Object):
 
 class EpisodeLinks(Object):
     def __init__(self, data: dict):
-        self.channel: Link = data.get("episode/channel")
-        self.next_episode: Link = data.get("episode/next_episode")
-        self.season: Link = data.get("episode/season")
-        self.series: Link = data.get("episode/series")
-        self.streams: Link = data.get("streams")
+        self.channel: Link = Link(data.get("episode/channel", {}))
+        self.next_episode: Link = Link(data.get("episode/next_episode", {}))
+        self.season: Link = Link(data.get("episode/season", {}))
+        self.series: Link = Link(data.get("episode/series", {}))
+        self.streams: Link = Link(data.get("streams", {}))
 
 class Episode(Object):
     def __init__(self, data: dict):
-        self.links: EpisodeLinks = EpisodeLinks(data.get("__links__"))
+        self.links: EpisodeLinks = EpisodeLinks(data.get("__links__", {}))
         self.id: str = data.get("id")
         self.channel_id: str = data.get("channel_id")
         self.series_id: str = data.get("series_id")
@@ -182,15 +177,15 @@ class Episode(Object):
         self.is_clip: bool = data.get("is_clip")
         self.seo_title: str = data.get("seo_title")
         self.seo_description: str = data.get("seo_description")
-        self.season_tags: List[str] = data.get("season_tags", list())
+        self.season_tags: List[str] = data.get("season_tags", [])
         self.available_offline: bool = data.get("available_offline")
         self.media_type: str = data.get("media_type")
         self.slug: str = data.get("slug")
-        self.images: Images = Images(data.get("images"))
+        self.images: Images = Images(data.get("images", {}))
         self.duration_ms: int = data.get("duration_ms")
         self.is_premium_only: bool = data.get("is_premium_only")
         self.listing_id: str = data.get("listing_id")
-        self.subtitle_locales: List[str] = data.get("subtitle_locales", list())
+        self.subtitle_locales: List[str] = data.get("subtitle_locales", [])
         self.playback: str = data.get("playback")
         self.availability_notes: str = data.get("availability_notes")
 
@@ -207,48 +202,48 @@ class SubtitleData(Object):
 
 class VideoFormat(Object):
     def __init__(self, data: dict):
-        self.raw: StreamData = StreamData(data.get("raw"))
-        self.en: StreamData = StreamData(data.get("en-US"))
-        self.es: StreamData = StreamData(data.get("es-ES"))
-        self.es_la: StreamData = StreamData(data.get("es-LA"))
-        self.pt_br: StreamData = StreamData(data.get("pt-BR"))
-        self.pt: StreamData = StreamData(data.get("pt-PT"))
-        self.fr: StreamData = StreamData(data.get("fr-FR"))
-        self.de: StreamData = StreamData(data.get("de-DE"))
-        self.ar: StreamData = StreamData(data.get("ar-SA"))
-        self.it: StreamData = StreamData(data.get("it-IT"))
-        self.ru: StreamData = StreamData(data.get("ru-RU"))
+        self.raw: StreamData = StreamData(data.get("raw", {}))
+        self.en: StreamData = StreamData(data.get("en-US", {}))
+        self.es: StreamData = StreamData(data.get("es-ES", {}))
+        self.es_la: StreamData = StreamData(data.get("es-LA", {}))
+        self.pt_br: StreamData = StreamData(data.get("pt-BR", {}))
+        self.pt: StreamData = StreamData(data.get("pt-PT", {}))
+        self.fr: StreamData = StreamData(data.get("fr-FR", {}))
+        self.de: StreamData = StreamData(data.get("de-DE", {}))
+        self.ar: StreamData = StreamData(data.get("ar-SA", {}))
+        self.it: StreamData = StreamData(data.get("it-IT", {}))
+        self.ru: StreamData = StreamData(data.get("ru-RU", {}))
 
 class Subtitles(Object):
     def __init__(self, data: dict):
-        self.en: SubtitleData = SubtitleData(data.get("en-US"))
-        self.es_la: SubtitleData = SubtitleData(data.get("es-LA"))
-        self.es: SubtitleData = SubtitleData(data.get("es-ES"))
-        self.pt_br: SubtitleData = SubtitleData(data.get("pt-BR"))
-        self.pt: SubtitleData = SubtitleData(data.get("pt-PT"))
-        self.fr: SubtitleData = SubtitleData(data.get("fr-FR"))
-        self.de: SubtitleData = SubtitleData(data.get("de-DE"))
-        self.ar: SubtitleData = SubtitleData(data.get("ar-SA"))
-        self.it: SubtitleData = SubtitleData(data.get("it-IT"))
-        self.ru: SubtitleData = SubtitleData(data.get("ru-RU"))
+        self.en: SubtitleData = SubtitleData(data.get("en-US", {}))
+        self.es_la: SubtitleData = SubtitleData(data.get("es-LA", {}))
+        self.es: SubtitleData = SubtitleData(data.get("es-ES", {}))
+        self.pt_br: SubtitleData = SubtitleData(data.get("pt-BR", {}))
+        self.pt: SubtitleData = SubtitleData(data.get("pt-PT", {}))
+        self.fr: SubtitleData = SubtitleData(data.get("fr-FR", {}))
+        self.de: SubtitleData = SubtitleData(data.get("de-DE", {}))
+        self.ar: SubtitleData = SubtitleData(data.get("ar-SA", {}))
+        self.it: SubtitleData = SubtitleData(data.get("it-IT", {}))
+        self.ru: SubtitleData = SubtitleData(data.get("ru-RU", {}))
 
 class Streams(Object):
     def __init__(self, data: dict):
-        self.adaptive_dash: VideoFormat = VideoFormat(data.get("adaptive_dash"))
-        self.adaptive_hls: VideoFormat = VideoFormat(data.get("adaptive_hls"))
-        self.drm_adaptive_dash: VideoFormat = VideoFormat(data.get("drm_adaptive_dash"))
-        self.drm_adaptive_hls: VideoFormat = VideoFormat(data.get("drm_adaptive_hls"))
-        self.drm_multitrack_adaptive_hls_v2: VideoFormat = VideoFormat(data.get("drm_multitrack_adaptive_hls_v2"))
-        self.multitrack_adaptive_hls_v2: VideoFormat = VideoFormat(data.get("multitrack_adaptive_hls_v2"))
-        self.vo_adaptive_dash: VideoFormat = VideoFormat(data.get("vo_adaptive_dash"))
-        self.vo_adaptive_hls: VideoFormat = VideoFormat(data.get("vo_adaptive_hls"))
-        self.vo_drm_adaptive_dash: VideoFormat = VideoFormat(data.get("vo_drm_adaptive_dash"))
-        self.vo_drm_adaptive_hls: VideoFormat = VideoFormat(data.get("vo_drm_adaptive_hls"))
+        self.adaptive_dash: VideoFormat = VideoFormat(data.get("adaptive_dash", {}))
+        self.adaptive_hls: VideoFormat = VideoFormat(data.get("adaptive_hls", {}))
+        self.drm_adaptive_dash: VideoFormat = VideoFormat(data.get("drm_adaptive_dash", {}))
+        self.drm_adaptive_hls: VideoFormat = VideoFormat(data.get("drm_adaptive_hls", {}))
+        self.drm_multitrack_adaptive_hls_v2: VideoFormat = VideoFormat(data.get("drm_multitrack_adaptive_hls_v2", {}))
+        self.multitrack_adaptive_hls_v2: VideoFormat = VideoFormat(data.get("multitrack_adaptive_hls_v2", {}))
+        self.vo_adaptive_dash: VideoFormat = VideoFormat(data.get("vo_adaptive_dash", {}))
+        self.vo_adaptive_hls: VideoFormat = VideoFormat(data.get("vo_adaptive_hls", {}))
+        self.vo_drm_adaptive_dash: VideoFormat = VideoFormat(data.get("vo_drm_adaptive_dash", {}))
+        self.vo_drm_adaptive_hls: VideoFormat = VideoFormat(data.get("vo_drm_adaptive_hls", {}))
 
 class StreamsInfo(Object):
     def __init__(self, data: dict):
         self.media_id: str = data.get("media_id")
         self.audio_locale: str = data.get("audio_locale")
-        self.subtitles: Subtitles = Subtitles(data.get("subtitles"))
-        self.streams: Streams = Streams(data.get("streams"))
-        self.bifs: List[str] = data.get("bifs", list())
+        self.subtitles: Subtitles = Subtitles(data.get("subtitles", {}))
+        self.streams: Streams = Streams(data.get("streams", {}))
+        self.bifs: List[str] = data.get("bifs", [])
