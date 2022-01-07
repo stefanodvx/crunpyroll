@@ -136,7 +136,7 @@ class Crunchyroll:
                 "locale": self.locale
             }
         )
-        return [Collection(**collection) for collection in r.get("items")] if not raw_json else r
+        return [Collection(collection) for collection in r.get("items")] if not raw_json else r
 
     def get_series(self, series_id: str, raw_json=False) -> Optional[Series]:
         """Get info about a series
@@ -153,7 +153,7 @@ class Crunchyroll:
             url=SERIES_ENDPOINT.format(self.config["cms"]["bucket"], series_id),
             params = {"locale": self.locale}
         )
-        return Series(**r) if not raw_json else r
+        return Series(r) if not raw_json else r
         
     def get_seasons(self, series_id: str, raw_json=False) -> Optional[List[Season]]:
         """Get seasons of a series
@@ -173,7 +173,7 @@ class Crunchyroll:
                 "locale": self.locale
             }
         )
-        return [Season(**season) for season in r.get("items")] if not raw_json else r
+        return [Season(season) for season in r.get("items")] if not raw_json else r
 
     def get_episodes(self, season_id: str, raw_json=False) -> Optional[List[Episode]]:
         """Get episodes of a series (from season)
@@ -193,7 +193,7 @@ class Crunchyroll:
                 "locale": self.locale
             }
         )
-        return [Episode(**episode) for episode in r.get("items")] if not raw_json else r
+        return [Episode(episode) for episode in r.get("items")] if not raw_json else r
 
     def get_streams(self, episode: Episode, raw_json=False) -> Optional[StreamsInfo]:
         """Get streams from an episode
@@ -215,7 +215,7 @@ class Crunchyroll:
         # Fix empty key in video streams
         fixup(r)
     
-        return StreamsInfo(**r) if not raw_json else r
+        return StreamsInfo(r) if not raw_json else r
 
     def get_similar(self, series_id: str, n: int=6, raw_json=False) -> Optional[List[Panel]]:
         """Get similar series
@@ -239,7 +239,7 @@ class Crunchyroll:
                 "locale": self.locale
             }
         )
-        return [Panel(**panel) for panel in r.get("items")] if not raw_json else r
+        return [Panel(panel) for panel in r.get("items")] if not raw_json else r
 
     def news_feed(self, n: int=6, raw_json=False) -> Optional[NewsFeed]:
         """Get news feed
@@ -260,7 +260,7 @@ class Crunchyroll:
                 "locale": self.locale
             }
         )
-        return NewsFeed(**r) if not raw_json else r
+        return NewsFeed(r) if not raw_json else r
 
     def browse(self, sort_by: str = "newly_added", n: int=6, raw_json=False) -> Optional[List[Panel]]:
         """Browse Crunchyroll catalog
@@ -285,7 +285,7 @@ class Crunchyroll:
                 "locale": self.locale
             }
         )
-        return [Panel(**panel) for panel in  r.get("items")] if not raw_json else r
+        return [Panel(panel) for panel in  r.get("items")] if not raw_json else r
 
     def get_formats(self, url: str) -> Optional[List[PlaylistItem]]:
         """Get formats in a playlist
@@ -311,4 +311,4 @@ class Crunchyroll:
                     "framerate": regesp.group(4),
                     "codecs": regesp.group(5)
                 })
-        return [PlaylistItem(**frmt) for frmt in formats]
+        return [PlaylistItem(frmt) for frmt in formats]
