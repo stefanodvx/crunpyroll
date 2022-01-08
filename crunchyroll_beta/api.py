@@ -91,7 +91,7 @@ class Crunchyroll:
             url=PROFILE_ENDPOINT
         )
         account_data.update(r)
-        account_data.update["expires"] = get_date() + timedelta(seconds=self.account_data["expires_in"])
+        account_data.update["expires"] = get_date() + timedelta(seconds=self.account_data.expires_in)
         self.account_data = AccountData(account_data)
 
     def _make_request(self, method: str, url: str, headers: Dict=dict(), params: Dict=dict(), data=None) -> Optional[Dict]:
