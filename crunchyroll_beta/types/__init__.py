@@ -3,7 +3,7 @@ from json import dumps
 
 class Object:
     def __str__(self):
-        dumps(self, indent=4, default=lambda x: x.__dict__, ensure_ascii=False)
+        return dumps(self, indent=4, default=lambda x: x.__dict__, ensure_ascii=False)
 
 class PlaylistItem(Object):
     def __init__(self, data: dict):
