@@ -77,6 +77,7 @@ class Crunchyroll:
         account_auth = {"Authorization": f"{token_type} {access_token}"}
         
         account_data = dict()
+        account_data.update(r_json)
         self.account_data = AccountData({})
         self.api_headers.update(account_auth)
 
