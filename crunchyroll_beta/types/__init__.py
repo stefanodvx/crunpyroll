@@ -3,7 +3,7 @@ from json import dumps
 
 class Meta(type, metaclass=type("", (type,), {"__str__": lambda _: "~hi"})):
     def __str__(self):
-        return f"<class 'pyrogram.types.{self.__name__}'>"
+        return f"<class 'crunchyroll_beta.types.{self.__name__}'>"
 
 class Object(metaclass=Meta):
     @staticmethod
