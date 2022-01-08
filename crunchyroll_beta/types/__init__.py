@@ -18,9 +18,9 @@ class Object(metaclass=Meta):
                     else getattr(obj, attr)
                 )
                 for attr in filter(lambda x: not x.startswith("_"), obj.__dict__)
-                if getattr(obj, attr) not in (None, datetime)
+                if getattr(obj, attr) is not None
             }
-        }
+        } if not isinstance(obj, datetime) else { ... }
 
     def __str__(self) -> str:
         return dumps(self, indent=4, default=Object.default, ensure_ascii=False)
