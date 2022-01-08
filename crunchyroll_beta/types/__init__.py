@@ -1,9 +1,7 @@
 from typing import Dict, List
-import json
 
 class Object:
-    def __str__(self) -> str:
-        return json.dumps(self, indent=4, ensure_ascii=False)
+    pass
 
 class PlaylistItem(Object):
     def __init__(self, data: dict):
