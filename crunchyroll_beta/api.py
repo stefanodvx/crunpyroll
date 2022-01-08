@@ -3,6 +3,7 @@ import re
 
 from datetime import timedelta
 from typing import Optional, List, Dict
+from requests.models import Response
 
 from .utils import *
 from .types import *
