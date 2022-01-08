@@ -63,7 +63,7 @@ class Crunchyroll:
             headers=headers,
             data=data
         )
-        r_json = self._get_json(r)
+        r_json = self._get_json(self, r)
 
         self.api_headers.clear()
         self.config.clear()
@@ -100,7 +100,7 @@ class Crunchyroll:
             params=params,
             data=data
         )
-        return self._get_json(r)
+        return self._get_json(self, r)
 
     def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
         """Search series
