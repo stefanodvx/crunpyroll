@@ -99,11 +99,6 @@ class Crunchyroll:
             if current_time > expires_time:
                 self._create_session(refresh=True)
         headers.update(self.api_headers)
-        params.update({
-            "Policy": self.config["cms"]["policy"],
-            "Signature": self.config["cms"]["signature"],
-            "Key-Pair-Id": self.config["cms"]["key_pair_id"]
-        })
         r = requests.request(
             method,
             url,
