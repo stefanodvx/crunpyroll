@@ -1,9 +1,57 @@
 from typing import Dict, List
+from datetime import datetime
 from json import dumps
 
-class Object:
+class Meta(type, metaclass=type("", (type,), {"__str__": lambda _: "~hi"})):
     def __str__(self):
-        return dumps(self, indent=4, default=lambda x: x.__dict__, ensure_ascii=False)
+        return f"<class 'pyrogram.types.{self.__name__}'>"
+
+class Object(metaclass=Meta):
+    @staticmethod
+    def default(obj: "Object"):
+        return {
+            "_": obj.__class__.__name__,
+            **{
+                attr: (
+                    "*" * 5
+                    if attr in ("access_token", "refesh_token")
+                    else getattr(obj, attr)
+                )
+                for attr in filter(lambda x: not x.startswith("_"), obj.__dict__)
+                if getattr(obj, attr) is not None
+            }
+        }
+
+    def __str__(self) -> str:
+        return dumps(self, indent=4, default=Object.default, ensure_ascii=False)
+
+class CMS(Object):
+    def __init__(self, data: dict):
+        self.bucket: str = data.get("bucket")
+        self.policy: str = data.get("policy")
+        self.signature: str = data.get("signature")
+        self.key_pair_id: str = data.get("key_pair_id")
+    
+class AccountData(Object):
+    def __init__(self, data: dict):
+        self.access_token: str = data.get("access_token")
+        self.refresh_token: str = data.get("refresh_token")
+        self.expires_in: int = data.get("expires_in")
+        self.expires: datetime = data.get("expires")
+        self.token_type: str =  data.get("token_type")
+        self.scope: str = data.get("scope")
+        self.contry: str = data.get("country")
+        self.account_id: str = data.get("account_id")
+        self.cms: CMS = data.get("cms", {})
+        self.service_available: bool = data.get("service_available")
+        self.avatar: str = data.get("avatar")
+        self.has_beta: bool = data.get("cr_beta_opt_in")
+        self.email_verified: bool = data.get("crleg_email_verified")
+        self.email: str = data.get("email")
+        self.maturity_rating: str = data.get("maturity_rating")
+        self.account_language: str = data.get("preferred_communication_language")
+        self.default_subtitles_language: str = data.get("preferred_communication_language")
+        self.username: str = data.get("username")
 
 class PlaylistItem(Object):
     def __init__(self, data: dict):
@@ -26,19 +74,6 @@ class Images(Object):
         self.poster_tall: List[Image] = [Image(item) for item in data.get("poster_tall", [[]])[0]]
         self.poster_wide: List[Image] = [Image(item) for item in data.get("poster_wide", [[]])[0]]
         self.thumbnail: List[Image] = [Image(item) for item in data.get("thumbnail", [[]])[0]]
-
-class SeriesMetadata(Object):
-    def __init__(self, data: dict):
-        self.availability_notes: str = data.get("availability_notes")
-        self.episode_count: int = data.get("episode_count")
-        self.extended_description: str = data.get("extended_description")
-        self.is_dubbed: bool = data.get("is_dubbed")
-        self.is_mature: bool = data.get("is_mature")
-        self.is_simulcast: bool = data.get("is_simulcast")
-        self.is_subbed: bool = data.get("is_subbed")
-        self.mature_blocked: bool = data.get("mature_blocked")
-        self.maturity_ratings: List[str] = data.get("maturity_ratings", [])
-        self.season_count: int = data.get("season_count")
 
 class SearchMetadata(Object):
     def __init__(self, data: dict):
@@ -103,7 +138,6 @@ class Panel(Object):
         self.promo_description: str = data.get("promo_description")
         self.promo_title: str = data.get("promo_title")
         self.search_metadata: SearchMetadata = SearchMetadata(data.get("search_metadata", {}))
-        self.series_metadata: SeriesMetadata = SeriesMetadata(data.get("series_metadata", {}))
         self.slug: str = data.get("slug")
         self.slug_title: str = data.get("slug_title")
         self.title: str = data.get("title")

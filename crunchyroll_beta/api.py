@@ -23,11 +23,11 @@ class Crunchyroll:
             E.g.: en-US, it-IT...
             Default to en-US
     """
-    def __init__(self, email: str, password: str, locale: str="en-US", write_errors: bool=False) -> None:
+    def __init__(self, email: str, password: str, locale: str="en-US") -> None:
         self.email: str = email
         self.password: str = password
         self.locale: str = locale
-        self.config: Dict = dict()
+        self.account_data: AccountData = AccountData(dict())
         self.api_headers: Dict = headers()
         self._create_session()
 
@@ -56,7 +56,7 @@ class Crunchyroll:
             }
         elif refresh:
             data = {
-                "refresh_token": self.config["refresh_token"],
+                "refresh_token": self.account_data.refresh_token,
                 "grant_type": "refresh_token",
                 "scope": "offline_access",
             }
@@ -70,39 +70,40 @@ class Crunchyroll:
         r_json = self._get_json(r)
 
         self.api_headers.clear()
-        self.config.clear()
+        self.account_data = AccountData({})
 
         access_token = r_json["access_token"]
         token_type = r_json["token_type"]
         account_auth = {"Authorization": f"{token_type} {access_token}"}
         
-        self.config.update(r_json)
+        account_data = dict()
+        self.account_data = AccountData({})
         self.api_headers.update(account_auth)
 
         r = self._make_request(
             method="GET",
             url=INDEX_ENDPOINT
         )
-        self.config.update(r)
+        account_data.update(r)
 
         r = self._make_request(
             method="GET",
             url=PROFILE_ENDPOINT
         )
-        self.config.update(r)
-
-        self.config["expires"] = get_date() + timedelta(seconds=self.config["expires_in"])
+        account_data.update(r)
+        account_data.update["expires"] = get_date() + timedelta(seconds=self.account_data["expires_in"])
+        self.account_data = AccountData(account_data)
 
     def _make_request(self, method: str, url: str, headers: Dict=dict(), params: Dict=dict(), data=None) -> Optional[Dict]:
-        if "cms" in self.config:
+        if self.account_data:
             params.update({
-                "Policy": self.config["cms"]["policy"],
-                "Signature": self.config["cms"]["signature"],
-                "Key-Pair-Id": self.config["cms"]["key_pair_id"]
+                "Policy": self.account_data.cms.policy,
+                "Signature": self.account_data.cms.signature,
+                "Key-Pair-Id": self.account_data.cms.key_pair_id
             })
-        if "expires" in self.config:
+        if expiration := self.account_data.expires:
             current_time = get_date()
-            if current_time > self.config["expires"]:
+            if current_time > expiration:
                 self._create_session(refresh=True)
         headers.update(self.api_headers)
         r = requests.request(
@@ -150,7 +151,7 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=SERIES_ENDPOINT.format(self.config["cms"]["bucket"], series_id),
+            url=SERIES_ENDPOINT.format(self.account_data.cms.bucket, series_id),
             params = {"locale": self.locale}
         )
         return Series(r) if not raw_json else r
@@ -167,7 +168,7 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=SEASONS_ENDPOINT.format(self.config["cms"]["bucket"]),
+            url=SEASONS_ENDPOINT.format(self.account_data.cms.bucket),
             params = {
                 "series_id": series_id,
                 "locale": self.locale
@@ -187,7 +188,7 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=EPISODES_ENDPOINT.format(self.config["cms"]["bucket"]),
+            url=EPISODES_ENDPOINT.format(self.account_data.cms.bucket),
             params = {
                 "season_id": season_id,
                 "locale": self.locale
@@ -208,7 +209,7 @@ class Crunchyroll:
         stream_id = re.search(r"videos\/(.+?)\/streams", episode.links.streams.href).group(1)
         r = self._make_request(
             method="GET",
-            url=STREAMS_ENDPOINT.format(self.config["cms"]["bucket"], stream_id),
+            url=STREAMS_ENDPOINT.format(self.account_data.cms.bucket, stream_id),
             params = {"locale": self.locale}
         )
         
