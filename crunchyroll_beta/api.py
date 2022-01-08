@@ -72,7 +72,6 @@ class Crunchyroll:
         self.api_headers.clear()
         self.config.clear()
 
-        self.config["expires"] = get_date() + timedelta(seconds=self.config["expires_in"])
         access_token = r_json["access_token"]
         token_type = r_json["token_type"]
         account_auth = {"Authorization": f"{token_type} {access_token}"}
@@ -91,6 +90,8 @@ class Crunchyroll:
             url=PROFILE_ENDPOINT
         )
         self.config.update(r)
+
+        self.config["expires"] = get_date() + timedelta(seconds=self.config["expires_in"])
 
     def _make_request(self, method: str, url: str, headers: Dict=dict(), params: Dict=dict(), data=None) -> Optional[Dict]:
         if "cms" in self.config:
