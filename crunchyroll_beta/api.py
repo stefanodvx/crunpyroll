@@ -27,7 +27,7 @@ class Crunchyroll:
         self.api_headers: Dict = headers()
         self._create_session()
 
-    def _get_json(r: Response) -> Optional[Dict]:
+    def _get_json(self, r: Response) -> Optional[Dict]:
         code: int = r.status_code
         r_json: Dict = r.json()
         if "error" in r_json:
@@ -63,7 +63,7 @@ class Crunchyroll:
             headers=headers,
             data=data
         )
-        r_json = self._get_json(self, r)
+        r_json = self._get_json(r)
 
         self.api_headers.clear()
         self.config.clear()
@@ -100,7 +100,7 @@ class Crunchyroll:
             params=params,
             data=data
         )
-        return self._get_json(self, r)
+        return self._get_json(r)
 
     def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
         """Search series
