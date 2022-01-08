@@ -1,5 +1,4 @@
 from typing import Dict, List
-from datetime import datetime
 from json import dumps
 
 class Meta(type, metaclass=type("", (type,), {"__str__": lambda _: "~hi"})):
@@ -14,13 +13,13 @@ class Object(metaclass=Meta):
             **{
                 attr: (
                     "*" * 5
-                    if attr in ("access_token", "refesh_token")
+                    if attr in ("access_token", "refresh_token")
                     else getattr(obj, attr)
                 )
                 for attr in filter(lambda x: not x.startswith("_"), obj.__dict__)
                 if getattr(obj, attr) is not None
             }
-        } if not isinstance(obj, datetime) else { ... }
+        }
 
     def __str__(self) -> str:
         return dumps(self, indent=4, default=Object.default, ensure_ascii=False)
@@ -36,8 +35,7 @@ class AccountData(Object):
     def __init__(self, data: dict):
         self.access_token: str = data.get("access_token")
         self.refresh_token: str = data.get("refresh_token")
-        self.expires_in: int = data.get("expires_in")
-        self.expires: datetime = data.get("expires")
+        self.expires: str = data.get("expires")
         self.token_type: str =  data.get("token_type")
         self.scope: str = data.get("scope")
         self.contry: str = data.get("country")

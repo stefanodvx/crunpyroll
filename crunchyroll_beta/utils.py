@@ -36,6 +36,13 @@ def fixup(d: Dict):
 def get_date() -> datetime: 
     return datetime.utcnow()
 
+def date_to_str(date: datetime) -> str: 
+    return "{}-{}-{}T{}:{}:{}Z".format(
+        date.year, date.month,
+        date.day, date.hour,
+        date.minute, date.second
+    )
+
 def str_to_date(string: str) -> datetime: 
     return datetime.strptime(
         string,

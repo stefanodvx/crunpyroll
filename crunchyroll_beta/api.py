@@ -93,7 +93,7 @@ class Crunchyroll:
         )
         account_data.update(r)
 
-        account_data["expires"] = get_date() + timedelta(seconds=account_data["expires_in"])
+        account_data["expires"] = date_to_str(get_date() + timedelta(seconds=account_data["expires_in"]))
         self.account_data = AccountData(account_data)
 
     def _make_request(self, method: str, url: str, headers: Dict=dict(), params: Dict=dict(), data=None) -> Optional[Dict]:
@@ -105,7 +105,7 @@ class Crunchyroll:
             })
         if expiration := self.account_data.expires:
             current_time = get_date()
-            if current_time > expiration:
+            if current_time > str_to_date(expiration):
                 self._create_session(refresh=True)
         headers.update(self.api_headers)
         r = requests.request(
