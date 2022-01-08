@@ -1,11 +1,7 @@
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Dict
 
-from requests.models import Response
-
-from .errors import LoginError, CrunchyrollError
-
-version = "1.4.1"
+version = "1.4.2"
 
 INDEX_ENDPOINT = "https://beta-api.crunchyroll.com/index/v2"
 PROFILE_ENDPOINT = "https://beta-api.crunchyroll.com/accounts/v1/me/profile"

@@ -1,10 +1,13 @@
 import requests
 import re
 
+from datetime import timedelta
 from typing import Optional, List, Dict
 
 from .utils import *
 from .types import *
+
+from .errors import CrunchyrollError, LoginError
 
 class Crunchyroll:
     """Initialize Crunchyroll Client and login
@@ -68,6 +71,7 @@ class Crunchyroll:
         self.api_headers.clear()
         self.config.clear()
 
+        self.config["expires"] = get_date() + timedelta(seconds=self.config["expires_in"])
         access_token = r_json["access_token"]
         token_type = r_json["token_type"]
         account_auth = {"Authorization": f"{token_type} {access_token}"}
@@ -95,8 +99,7 @@ class Crunchyroll:
                 "Key-Pair-Id": self.config["cms"]["key_pair_id"]
             })
             current_time = get_date()
-            expires_time = str_to_date(self.config["cms"]["expires"])
-            if current_time > expires_time:
+            if current_time > self.config["expires"]:
                 self._create_session(refresh=True)
         headers.update(self.api_headers)
         r = requests.request(
