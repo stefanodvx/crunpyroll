@@ -75,14 +75,25 @@ class Crunchyroll:
         self.config.update(r_json)
         self.api_headers.update(account_auth)
 
-        r = self._make_request(method="GET", url=INDEX_ENDPOINT)
+        r = self._make_request(
+            method="GET",
+            url=INDEX_ENDPOINT
+        )
         self.config.update(r)
 
-        r = self._make_request(method="GET", url=PROFILE_ENDPOINT)
+        r = self._make_request(
+            method="GET",
+            url=PROFILE_ENDPOINT
+        )
         self.config.update(r)
 
     def _make_request(self, method: str, url: str, headers: Dict=dict(), params: Dict=dict(), data=None) -> Optional[Dict]:
         if "cms" in self.config:
+            params.update({
+                "Policy": self.config["cms"]["policy"],
+                "Signature": self.config["cms"]["signature"],
+                "Key-Pair-Id": self.config["cms"]["key_pair_id"]
+            })
             current_time = get_date()
             expires_time = str_to_date(self.config["cms"]["expires"])
             if current_time > expires_time:
