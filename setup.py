@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="crunchyroll-beta",
-    version="1.4",
+    version="1.4.1",
     author="stefanodvx",
     author_email="pp.stefanodvx@gmail.com",
     description="API for Crunchyroll BETA",
@@ -20,7 +20,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "httpx",
+        "requests",
         "pydantic",
     ],
     packages=setuptools.find_packages(),
