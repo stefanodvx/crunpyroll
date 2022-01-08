@@ -42,7 +42,7 @@ class AccountData(Object):
         self.scope: str = data.get("scope")
         self.contry: str = data.get("country")
         self.account_id: str = data.get("account_id")
-        self.cms: CMS = data.get("cms", {})
+        self.cms: CMS = CMS(data.get("cms", {}))
         self.service_available: bool = data.get("service_available")
         self.avatar: str = data.get("avatar")
         self.has_beta: bool = data.get("cr_beta_opt_in")
