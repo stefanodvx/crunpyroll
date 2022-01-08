@@ -1,7 +1,14 @@
 from typing import Dict, List
+import json
 
 class Object:
-    pass
+    def __str__(self):
+        return json.dumps(
+            self,
+            indent=4,
+            default=lambda x: x.__dict__,
+            ensure_ascii=False
+        )
 
 class PlaylistItem(Object):
     def __init__(self, data: dict):
