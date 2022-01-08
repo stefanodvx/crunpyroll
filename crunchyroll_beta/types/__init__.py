@@ -18,7 +18,7 @@ class Object(metaclass=Meta):
                     else getattr(obj, attr)
                 )
                 for attr in filter(lambda x: not x.startswith("_"), obj.__dict__)
-                if getattr(obj, attr) is not None
+                if getattr(obj, attr) not in (None, datetime)
             }
         }
 
