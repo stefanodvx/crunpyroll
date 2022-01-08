@@ -100,6 +100,7 @@ class Crunchyroll:
                 "Signature": self.config["cms"]["signature"],
                 "Key-Pair-Id": self.config["cms"]["key_pair_id"]
             })
+        if "expires" in self.config:
             current_time = get_date()
             if current_time > self.config["expires"]:
                 self._create_session(refresh=True)
