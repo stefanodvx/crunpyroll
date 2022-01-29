@@ -120,7 +120,7 @@ class Crunchyroll:
             data=data
         )
         if self.log:
-            print(f"[{r.status_code}] {r.url}\n[Proxy]{r.request.proxies}")
+            print(f"[{r.status_code}] {r.url}\n[Proxy] {r.request.proxies}")
         return self._get_json(r)
 
     def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
