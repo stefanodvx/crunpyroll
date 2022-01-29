@@ -123,7 +123,6 @@ class Crunchyroll:
             params=params,
             data=data
         )
-        print(r.text, r.url)
         return self._get_json(r)
 
     def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
