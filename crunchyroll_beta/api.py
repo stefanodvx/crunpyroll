@@ -27,6 +27,7 @@ class Crunchyroll:
         self.client = requests.Session()
         if proxies:
             self.client.proxies = proxies
+            print(f"Selected proxy: {proxies}")
         self.log = log
         self.email: str = email
         self.password: str = password
@@ -120,7 +121,7 @@ class Crunchyroll:
             data=data
         )
         if self.log:
-            print(f"[{r.status_code}] {r.url}\n[Proxy] {r.request.proxies}")
+            print(f"[{r.status_code}] {r.url}")
         return self._get_json(r)
 
     def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
