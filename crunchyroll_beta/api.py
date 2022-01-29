@@ -23,7 +23,10 @@ class Crunchyroll:
             E.g.: en-US, it-IT...
             Default to en-US
     """
-    def __init__(self, email: str, password: str, locale: str="en-US") -> None:
+    def __init__(self, email: str, password: str, locale: str="en-US", proxies: dict=None) -> None:
+        self.client = requests.Session()
+        if proxies:
+            self.client.proxies = proxies
         self.email: str = email
         self.password: str = password
         self.locale: str = locale
@@ -61,7 +64,7 @@ class Crunchyroll:
                 "scope": "offline_access",
             }
 
-        r = requests.request(
+        r = self.client.request(
             method="POST",
             url=TOKEN_ENDPOINT,
             headers=headers,
@@ -108,7 +111,7 @@ class Crunchyroll:
             if current_time > str_to_date(expiration):
                 self._create_session(refresh=True)
         headers.update(self.api_headers)
-        r = requests.request(
+        r = self.client.request(
             method,
             url,
             headers=headers,
@@ -301,7 +304,7 @@ class Crunchyroll:
             ``List``: On success, list of ``PlaylistItem`` is returned
         """
         formats = list()
-        r = requests.get(url)
+        r = self.client.get(url)
         lines = r.text.split("\n")
         for i, line in enumerate(lines, 1):
             regesp = re.match(PLAYLIST_REG, line.strip())
