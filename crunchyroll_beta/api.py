@@ -22,16 +22,20 @@ class Crunchyroll:
             The language to use in Crunchyroll
             E.g.: en-US, it-IT...
             Default to en-US
+        proxy (``str``, dict):
+            Proxy for Crunchyroll
+            E.g.: {"http": ...}
     """
     def __init__(
         self,
         email: str,
         password: str,
         locale: str="en-US",
-        custom_bucket: str=None
+        proxy: dict=None
     ) -> None:
-        self.bucket = custom_bucket
-        self.client = requests.Session()
+        self.http = requests.Session()
+        if proxy:
+            self.http.proxies.update(proxy)
         self.email: str = email
         self.password: str = password
         self.locale: str = locale
@@ -69,7 +73,7 @@ class Crunchyroll:
                 "scope": "offline_access",
             }
 
-        r = self.client.request(
+        r = self.http.request(
             method="POST",
             url=TOKEN_ENDPOINT,
             headers=headers,
@@ -116,7 +120,7 @@ class Crunchyroll:
             if current_time > str_to_date(expiration):
                 self._create_session(refresh=True)
         headers.update(self.api_headers)
-        r = self.client.request(
+        r = self.http.request(
             method,
             url,
             headers=headers,
@@ -161,7 +165,7 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=SERIES_ENDPOINT.format(self.bucket or self.account_data.cms.bucket, series_id),
+            url=SERIES_ENDPOINT.format(self.account_data.cms.bucket, series_id),
             params = {"locale": self.locale}
         )
         return Series(r) if not raw_json else r
@@ -178,7 +182,7 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=SEASONS_ENDPOINT.format(self.bucket or self.account_data.cms.bucket),
+            url=SEASONS_ENDPOINT.format(self.account_data.cms.bucket),
             params = {
                 "series_id": series_id,
                 "locale": self.locale
@@ -198,7 +202,7 @@ class Crunchyroll:
         """
         r = self._make_request(
             method="GET",
-            url=EPISODES_ENDPOINT.format(self.bucket or self.account_data.cms.bucket),
+            url=EPISODES_ENDPOINT.format(self.account_data.cms.bucket),
             params = {
                 "season_id": season_id,
                 "locale": self.locale
@@ -219,7 +223,7 @@ class Crunchyroll:
         stream_id = re.search(r"videos\/(.+?)\/streams", episode.links.streams.href).group(1)
         r = self._make_request(
             method="GET",
-            url=STREAMS_ENDPOINT.format(self.bucket or self.account_data.cms.bucket, stream_id),
+            url=STREAMS_ENDPOINT.format(self.account_data.cms.bucket, stream_id),
             params = {"locale": self.locale}
         )
         
@@ -309,7 +313,7 @@ class Crunchyroll:
             ``List``: On success, list of ``PlaylistItem`` is returned
         """
         formats = list()
-        r = self.client.get(url)
+        r = self.http.get(url)
         lines = r.text.split("\n")
         for i, line in enumerate(lines, 1):
             regesp = re.match(PLAYLIST_REG, line.strip())
