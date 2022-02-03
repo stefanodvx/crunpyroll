@@ -41,7 +41,11 @@ class Crunchyroll:
         self.locale: str = locale
         self.account_data: AccountData = AccountData(dict())
         self.api_headers: Dict = headers()
+        self.started = False
+
+    def start(self):
         self._create_session()
+        self.started = True
 
     def _get_json(self, r: Response) -> Optional[Dict]:
         code: int = r.status_code
@@ -108,17 +112,24 @@ class Crunchyroll:
         account_data["expires"] = date_to_str(get_date() + timedelta(seconds=account_data["expires_in"]))
         self.account_data = AccountData(account_data)
 
-    def _make_request(self, method: str, url: str, headers: Dict=dict(), params: Dict=dict(), data=None) -> Optional[Dict]:
+    def _make_request(
+        self,
+        method: str,
+        url: str,
+        headers: Dict=dict(),
+        params: Dict=dict(),
+        data=None
+    ) -> Optional[Dict]:
         if self.account_data:
+            if expiration := self.account_data.expires:
+                current_time = get_date()
+                if current_time > str_to_date(expiration):
+                    self._create_session(refresh=True)
             params.update({
                 "Policy": self.account_data.cms.policy,
                 "Signature": self.account_data.cms.signature,
                 "Key-Pair-Id": self.account_data.cms.key_pair_id
             })
-        if expiration := self.account_data.expires:
-            current_time = get_date()
-            if current_time > str_to_date(expiration):
-                self._create_session(refresh=True)
         headers.update(self.api_headers)
         r = self.http.request(
             method,
@@ -129,13 +140,18 @@ class Crunchyroll:
         )
         return self._get_json(r)
 
-    def search(self, query: str, n: int=6, raw_json=False) -> Optional[List[Collection]]:
+    def search(
+        self,
+        query: str,
+        max_results: int=6,
+        raw_json=False
+    ) -> Optional[List[Collection]]:
         """Search series
 
         Parameters:
             query (``str``):
                 Query to search
-            n (``int``, optional):
+            max_results (``int``, optional):
                 Number of results to return
                 Default to 6
 
@@ -147,13 +163,17 @@ class Crunchyroll:
             url=SEARCH_ENDPOINT,
             params = {
                 "q": query,
-                "n": str(n),
+                "n": str(max_results),
                 "locale": self.locale
             }
         )
         return [Collection(collection) for collection in r.get("items")] if not raw_json else r
 
-    def get_series(self, series_id: str, raw_json=False) -> Optional[Series]:
+    def get_series(
+        self,
+        series_id: str,
+        raw_json=False
+    ) -> Optional[Series]:
         """Get info about a series
 
         Parameters:
@@ -170,7 +190,11 @@ class Crunchyroll:
         )
         return Series(r) if not raw_json else r
         
-    def get_seasons(self, series_id: str, raw_json=False) -> Optional[List[Season]]:
+    def get_seasons(
+        self,
+        series_id: str,
+        raw_json=False
+    ) -> Optional[List[Season]]:
         """Get seasons of a series
 
         Parameters:
@@ -190,7 +214,11 @@ class Crunchyroll:
         )
         return [Season(season) for season in r.get("items")] if not raw_json else r
 
-    def get_episodes(self, season_id: str, raw_json=False) -> Optional[List[Episode]]:
+    def get_episodes(
+        self,
+        season_id: str,
+        raw_json=False
+    ) -> Optional[List[Episode]]:
         """Get episodes of a series (from season)
 
         Parameters:
@@ -210,7 +238,11 @@ class Crunchyroll:
         )
         return [Episode(episode) for episode in r.get("items")] if not raw_json else r
 
-    def get_streams(self, episode: Episode, raw_json=False) -> Optional[StreamsInfo]:
+    def get_streams(
+        self,
+        episode: Episode,
+        raw_json=False
+    ) -> Optional[StreamsInfo]:
         """Get streams from an episode
 
         Parameters:
@@ -232,13 +264,18 @@ class Crunchyroll:
     
         return StreamsInfo(r) if not raw_json else r
 
-    def get_similar(self, series_id: str, n: int=6, raw_json=False) -> Optional[List[Panel]]:
+    def get_similar(
+        self,
+        series_id: str,
+        max_results: int=6,
+        raw_json=False
+    ) -> Optional[List[Panel]]:
         """Get similar series
 
         Parameters:
             series_id (``str``):
                 ID of the series
-            n (``int``, optional):
+            max_results (``int``, optional):
                 Number of results to return
                 Default to 6
 
@@ -250,13 +287,17 @@ class Crunchyroll:
             url=SIMILAR_ENDPOINT.format(self["account_id"]),
             params = {
                 "guid": series_id,
-                "n": str(n),
+                "n": str(max_results),
                 "locale": self.locale
             }
         )
         return [Panel(panel) for panel in r.get("items")] if not raw_json else r
 
-    def news_feed(self, n: int=6, raw_json=False) -> Optional[NewsFeed]:
+    def news_feed(
+        self,
+        max_results: int=6,
+        raw_json=False
+    ) -> Optional[NewsFeed]:
         """Get news feed
 
         Parameters:
@@ -271,20 +312,25 @@ class Crunchyroll:
             method="GET",
             url=NEWSFEED_ENDPOINT,
             params = {
-                "n": str(n),
+                "n": str(max_results),
                 "locale": self.locale
             }
         )
         return NewsFeed(r) if not raw_json else r
 
-    def browse(self, sort_by: str = "newly_added", n: int=6, raw_json=False) -> Optional[List[Panel]]:
+    def browse(
+        self,
+        sort_by: str = "newly_added",
+        max_results: int=6,
+        raw_json=False
+    ) -> Optional[List[Panel]]:
         """Browse Crunchyroll catalog
 
         Parameters:
             sort_by (``str``, optional):
                 Sort by ``newly_added`` or ``popularity``
                 Default to ``newly_added``
-            n (``int``, optional):
+            max_results (``int``, optional):
                 Number of results to return
                 Default to 6
 
@@ -296,7 +342,7 @@ class Crunchyroll:
             url=BROWSE_ENDPOINT,
             params = {
                 "sort_by": sort_by,
-                "n": str(n),
+                "n": str(max_results),
                 "locale": self.locale
             }
         )
