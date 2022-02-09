@@ -12,6 +12,7 @@ This API **requires an account**, and works only on Crunchyroll BETA!
 from crunchyroll_beta import Crunchyroll
 
 cr = Crunchyroll("email", "password")
+cr.start()
 
 series_id = "GY5P48XEY" # cr.search("Demon Slayer")
 season_id = cr.get_seasons(series_id)[2].id
