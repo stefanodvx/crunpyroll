@@ -11,7 +11,7 @@ from .types import *
 from .errors import CrunchyrollError, LoginError
 
 class Crunchyroll:
-    """Initialize Crunchyroll Client and login
+    """Initialize Crunchyroll Client
     
     Parameters:
         email (``str``):
@@ -41,11 +41,9 @@ class Crunchyroll:
         self.locale: str = locale
         self.account_data: AccountData = AccountData(dict())
         self.api_headers: Dict = headers()
-        self.started = False
 
     def start(self):
         self._create_session()
-        self.started = True
 
     def _get_json(self, r: Response) -> Optional[Dict]:
         code: int = r.status_code
@@ -362,6 +360,7 @@ class Crunchyroll:
         r = self.http.get(url)
         lines = r.text.split("\n")
         for i, line in enumerate(lines, 1):
+            print(line)
             regesp = re.match(PLAYLIST_REG, line.strip())
             if regesp:
                 formats.append({
