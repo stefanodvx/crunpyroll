@@ -17,7 +17,7 @@ BROWSE_ENDPOINT = "https://beta-api.crunchyroll.com/content/v1/browse"
 
 AUTHORIZATION = "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k="
 
-PLAYLIST_REG = r"\#EXT\-X\-STREAM\-INF\:PROGRAM\-ID\=\d+\,BANDWIDTH\=(\d+)\,RESOLUTION\=(\d+)x(\d+)\,FRAME-RATE\=(.+)\,CODECS\=\"(.+)\""
+PLAYLIST_REG = r"\#EXT\-X\-STREAM\-INF\:BANDWIDTH\=(\d+)\,RESOLUTION\=(\d+)x(\d+)"
 
 def headers() -> Dict:
     return {

@@ -360,7 +360,6 @@ class Crunchyroll:
         r = self.http.get(url)
         lines = r.text.split("\n")
         for i, line in enumerate(lines, 1):
-            print(line)
             regesp = re.match(PLAYLIST_REG, line.strip())
             if regesp:
                 formats.append({
