@@ -366,8 +366,6 @@ class Crunchyroll:
                     "url": lines[i].strip(),
                     "bandwidth": int(regesp.group(1)),
                     "width": int(regesp.group(2)),
-                    "height": int(regesp.group(3)),
-                    "framerate": regesp.group(4),
-                    "codecs": regesp.group(5)
+                    "height": int(regesp.group(3))
                 })
         return [PlaylistItem(frmt) for frmt in formats]

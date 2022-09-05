@@ -57,8 +57,6 @@ class PlaylistItem(Object):
         self.bandwidth: int = data.get("bandwidth")
         self.width: int = data.get("width")
         self.height: int = data.get("height")
-        self.framerate: str = data.get("framerate")
-        self.codecs: str = data.get("codecs")
 
 class Image(Object):
     def __init__(self, data: dict):
