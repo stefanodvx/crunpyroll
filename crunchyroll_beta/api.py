@@ -326,7 +326,7 @@ class Crunchyroll:
 
         Parameters:
             sort_by (``str``, optional):
-                Sort by ``newly_added`` or ``popularity``
+                Sort by ``newly_added``, ``popularity`` or ``alphabetical``
                 Default to ``newly_added``
             max_results (``int``, optional):
                 Number of results to return
