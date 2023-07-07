@@ -3,13 +3,13 @@
 ## Crunchyroll BETA API
 ### Installation ⚙️
 ```bash
-pip install git+https://github.com/stefanodvx/crunchyroll@main
+pip install git+https://github.com/stefanodvx/crunpyroll@main
 ```
 
 ### Example Code ❓
-This API **requires an account**, and works only on Crunchyroll BETA!
+This API **requires an account**!
 ```python3
-from crunchyroll_beta import Crunchyroll
+from crunpyroll import Crunchyroll
 
 cr = Crunchyroll("email", "password")
 cr.start()
