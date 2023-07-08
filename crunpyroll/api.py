@@ -60,6 +60,11 @@ class Crunchyroll(Methods):
         if status_code != 200:
             raise CrunchyrollError(f"[{status_code}] {text_content}")
         return json_content
+    
+    async def requires_login(self, func):
+        async def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+        return wrapper
 
     async def api_request(
         self,
