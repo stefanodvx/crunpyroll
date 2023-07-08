@@ -24,7 +24,7 @@ class Login:
             payload={
                 "username": client.email,
                 "password": client.password,
-                "gran_type": "password",
+                "grant_type": "password",
                 "scope": "offline_access",
                 "device_id": DEVICE_ID,
                 "device_name": DEVICE_NAME,
