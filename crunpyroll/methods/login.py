@@ -1,4 +1,5 @@
 from crunpyroll import Crunchyroll
+
 from crunpyroll.types import Session
 from crunpyroll.utils import (
     get_date,
