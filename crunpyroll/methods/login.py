@@ -1,7 +1,7 @@
-from crunpyroll import Crunchyroll
+import crunpyroll
 
-from crunpyroll.types import Session
-from crunpyroll.utils import (
+from ..types import Session
+from ..utils import (
     get_date,
     PUBLIC_TOKEN,
     DEVICE_NAME,
@@ -13,7 +13,7 @@ from datetime import timedelta
 
 class Login:
     async def login(
-        client: "Crunchyroll",
+        client: "crunpyroll.Crunchyroll",
     ) -> bool | None:
         response = await client.api_request(
             method="POST",
