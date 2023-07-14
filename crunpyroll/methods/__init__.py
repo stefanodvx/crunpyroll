@@ -1,6 +1,2 @@
-from .login import Login
-
-class Methods(
-    Login
-):
+class Methods():
     pass

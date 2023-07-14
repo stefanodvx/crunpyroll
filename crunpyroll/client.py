@@ -1,21 +1,17 @@
-import httpx
-import ssl
-import json
-import re
-
-from datetime import timedelta
-
 from .methods import Methods
 from .utils import (
-    base_api_headers,
+    get_api_headers,
     API_DOMAIN
 )
 
-from .types import Session
+from .session import Session
+from .errors import CrunchyrollError
 
-from .errors import CrunchyrollError, LoginError
+import ssl
+import json
+import httpx
 
-class Crunchyroll(Methods):
+class Client(Methods):
     """Initialize Crunchyroll Client
     
     Parameters:
@@ -47,7 +43,7 @@ class Crunchyroll(Methods):
             verify=ssl.create_default_context(),
         )
 
-        self.session: Session = None
+        self.session = Session(self)
 
     @staticmethod
     def parse_response(response: httpx.Response) -> dict | None:
@@ -60,11 +56,6 @@ class Crunchyroll(Methods):
         if status_code != 200:
             raise CrunchyrollError(f"[{status_code}] {text_content}")
         return json_content
-    
-    async def requires_login(self, func):
-        async def wrapper(*args, **kwargs):
-            return func(*args, **kwargs)
-        return wrapper
 
     async def api_request(
         self,
@@ -75,10 +66,7 @@ class Crunchyroll(Methods):
         payload: dict = None
     ) -> dict | None:
         url = API_DOMAIN + endpoint
-        api_headers = base_api_headers()
-        if headers:
-            api_headers.update(headers)
-
+        api_headers = get_api_headers(headers)
         response = await self.http.request(
             method=method,
             url=url,
@@ -86,4 +74,4 @@ class Crunchyroll(Methods):
             headers=api_headers,
             data=payload
         )
-        return Crunchyroll.parse_response(response)
+        return Client.parse_response(response)

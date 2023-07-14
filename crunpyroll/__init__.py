@@ -1,1 +1,1 @@
-from .api import Crunchyroll
+from .client import Client

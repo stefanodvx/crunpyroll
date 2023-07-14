@@ -8,12 +8,11 @@ DEVICE_NAME = "RMX2170"
 DEVICE_TYPE = "realme RMX2170"
 DEVICE_ID = str(uuid4())
 
-def base_api_headers() -> dict:
-    headers = {
+def get_api_headers(headers: dict | None) -> dict:
+    return {
         "Content-Type": "application/x-www-form-urlencoded",
         "User-Agent": "Crunchyroll/3.35.0 Android/10 okhttp/4.9.2"
-    }
-    return headers
+    } | (headers or {})
 
 def get_date() -> datetime: 
     return datetime.utcnow()

@@ -8,7 +8,7 @@ setuptools.setup(
     version="2.1",
     author="stefanodvx",
     author_email="pp.stefanodvx@gmail.com",
-    description="Async Crunchyroll API Wrapper in Python",
+    description="Async Crunchyroll Client in Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/stefanodvx/crunpyroll",
