@@ -69,6 +69,10 @@ class Client(Methods):
         api_headers = get_api_headers(headers)
         if self.session.is_authorized:
             api_headers.update(self.session.authorization_header)
+        print(url)
+        print(payload)
+        print(params)
+        print(api_headers)
         response = await self.http.request(
             method=method,
             url=url,
