@@ -39,7 +39,9 @@ class Session:
         response = await self._client.api_request(
             method="POST",
             endpoint="auth/v1/token",
-            headers=self.authorization_header,
+            headers={
+                "Authorization": f"Basic {PUBLIC_TOKEN}"
+            },
             payload={
                 "username": self._client.email,
                 "password": self._client.password,
@@ -61,9 +63,6 @@ class Session:
         response = await self._client.api_request(
             method="POST",
             endpoint="auth/v1/token",
-            headers={
-                "Authorization": f"Bearer {self.access_token}"
-            },
             payload={
                 "refresh_token": self.refresh_token,
                 "grant_type": "refresh_token",
