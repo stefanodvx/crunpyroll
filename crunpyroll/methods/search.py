@@ -24,7 +24,7 @@ class Search:
             if isinstance(filter, enums.SearchFilter)
         )
         response = await self.api_request(
-            method="POST",
+            method="GET",
             endpoint="content/v2/discover/search",
             params={
                 "q": query,
