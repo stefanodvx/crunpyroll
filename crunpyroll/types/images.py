@@ -8,11 +8,11 @@ class Images:
 
 class Image:
     def __init__(self, data: dict):
-        self.widht: str = data.get("width")
+        self.width: str = data.get("width")
         self.height: int = data.get("height")
         self.url: str = data.get("source")
         self.type: "ImageType" = ImageType(data.get("type"))
 
     @classmethod
     def from_list(cls, lst):
-        return [Image(image) for image in lst]
+        return [Image(image[0]) for image in lst]
