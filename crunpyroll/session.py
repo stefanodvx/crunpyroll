@@ -1,6 +1,4 @@
 from datetime import datetime, timedelta
-
-from .client import Client
 from .utils import (
     get_date,
     PUBLIC_TOKEN,
@@ -9,12 +7,14 @@ from .utils import (
     DEVICE_ID
 )
 
+import crunpyroll
+
 class Session:
     def __init__(
         self,
-        client: Client
+        client: "crunpyroll.Client"
     ):
-        self._client: Client = client
+        self._client: crunpyroll.Client = client
 
         self.access_token: str = None
         self.refresh_token: str = None
