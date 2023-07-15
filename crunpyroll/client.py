@@ -62,7 +62,10 @@ class Client(Methods):
     ) -> dict | None:
         url = API_DOMAIN + endpoint
         api_headers = get_api_headers(headers)
-        print(url, api_headers)
+        print(url)
+        print(api_headers)
+        print(payload)
+        print(params)
         response = await self.http.request(
             method=method,
             url=url,
