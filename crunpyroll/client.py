@@ -49,12 +49,13 @@ class Client(Methods):
     def parse_response(response: httpx.Response) -> dict | None:
         status_code = response.status_code
         text_content = response.text
+        message = f"[{status_code}] {text_content}"
         try:
             json_content = response.json()
         except json.JSONDecodeError:
-            raise CrunchyrollError(f"[{status_code}] {text_content}")
+            raise CrunchyrollError(message)
         if status_code != 200:
-            raise CrunchyrollError(f"[{status_code}] {text_content}")
+            raise CrunchyrollError(message)
         return json_content
 
     async def api_request(
@@ -69,10 +70,6 @@ class Client(Methods):
         api_headers = get_api_headers(headers)
         if self.session.is_authorized:
             api_headers.update(self.session.authorization_header)
-        print(url)
-        print(payload)
-        print(params)
-        print(api_headers)
         response = await self.http.request(
             method=method,
             url=url,
