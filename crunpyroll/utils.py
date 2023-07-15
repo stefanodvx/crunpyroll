@@ -10,6 +10,7 @@ DEVICE_ID = str(uuid4())
 
 def get_api_headers(headers: dict | None) -> dict:
     return {
+        "Connection": "Keep-Alive",
         "Content-Type": "application/x-www-form-urlencoded",
         "User-Agent": "Crunchyroll/3.35.0 Android/10 okhttp/4.9.2"
     } | (headers or {})
