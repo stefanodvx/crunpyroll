@@ -40,6 +40,11 @@ class Client(Methods):
         self.http = httpx.AsyncClient(proxies=proxies)
         self.session = Session(self)
 
+    async def start(self):
+        if self.session.is_authorized:
+            raise Exception("Client is already authorized and started.")
+        return await self.session.authorize()
+
     @staticmethod
     def parse_response(response: httpx.Response) -> dict | None:
         status_code = response.status_code
@@ -64,8 +69,8 @@ class Client(Methods):
         api_headers = get_api_headers(headers)
         print(url)
         print(api_headers)
-        print(payload)
         print(params)
+        print(payload)
         response = await self.http.request(
             method=method,
             url=url,
@@ -74,8 +79,3 @@ class Client(Methods):
             data=payload
         )
         return Client.parse_response(response)
-    
-    async def start(self):
-        if self.session.is_authorized:
-            raise Exception("Client is already authorized and started.")
-        return await self.session.authorize()

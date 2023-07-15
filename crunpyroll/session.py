@@ -42,7 +42,10 @@ class Session:
                 "username": self._client.email,
                 "password": self._client.password,
                 "grant_type": "password",
-                "scope": "offline_access"
+                "scope": "offline_access",
+                "device_id": DEVICE_ID,
+                "device_name": DEVICE_NAME,
+                "device_type": DEVICE_TYPE
             }
         )
         self.access_token = response.get("access_token")
