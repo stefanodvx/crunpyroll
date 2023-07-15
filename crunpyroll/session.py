@@ -26,7 +26,7 @@ class Session:
     
     async def retrieve(self) -> None:
         if not self.is_authorized:
-            await self.authorize()
+            raise Exception("Client is not authorized yet.")
         date = get_date()
         if date >= self.expiration:
             await self.refresh()
@@ -42,10 +42,7 @@ class Session:
                 "username": self._client.email,
                 "password": self._client.password,
                 "grant_type": "password",
-                "scope": "offline_access",
-                "device_id": DEVICE_ID,
-                "device_name": DEVICE_NAME,
-                "device_type": DEVICE_TYPE
+                "scope": "offline_access"
             }
         )
         self.access_token = response.get("access_token")

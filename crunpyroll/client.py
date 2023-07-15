@@ -74,3 +74,8 @@ class Client(Methods):
             data=payload
         )
         return Client.parse_response(response)
+    
+    async def start(self):
+        if self.session.is_authorized:
+            raise Exception("Client is already authorized and started.")
+        return await self.session.authorize()
