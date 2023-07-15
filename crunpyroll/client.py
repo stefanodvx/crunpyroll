@@ -7,9 +7,8 @@ from .utils import (
 from .session import Session
 from .errors import CrunchyrollError
 
-import ssl
-import json
 import httpx
+import json
 
 class Client(Methods):
     """Initialize Crunchyroll Client
@@ -38,11 +37,7 @@ class Client(Methods):
         self.password: str = password
         self.locale: str = locale
 
-        self.http = httpx.AsyncClient(
-            proxies=proxies,
-            verify=ssl.create_default_context(),
-        )
-
+        self.http = httpx.AsyncClient(proxies=proxies)
         self.session = Session(self)
 
     @staticmethod
