@@ -24,6 +24,10 @@ class Session:
     def is_authorized(self):
         return (self.access_token and self.refresh_token)
     
+    @property
+    def authorization_header(self):
+        return {"Authorization": f"Bearer {self.access_token}"}
+    
     async def retrieve(self) -> None:
         if not self.is_authorized:
             raise Exception("Client is not authorized yet.")
@@ -35,9 +39,7 @@ class Session:
         response = await self._client.api_request(
             method="POST",
             endpoint="auth/v1/token",
-            headers={
-                "Authorization": f"Basic {PUBLIC_TOKEN}"
-            },
+            headers=self.authorization_header,
             payload={
                 "username": self._client.email,
                 "password": self._client.password,
