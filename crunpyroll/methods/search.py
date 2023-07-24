@@ -18,7 +18,7 @@ class Search:
             enums.ContentType.SERIES,
             enums.ContentType.TOP_RESULTS
         ]
-    ):
+    ) -> "types.SearchResult":
         await self.session.retrieve()
         filters_string = ",".join(
             filter.value for filter in filters

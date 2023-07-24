@@ -11,7 +11,6 @@ class SearchResult:
         self.total: int = total
         self.items: list = items
         
-
     @classmethod
     def parse(cls, response: dict):
         items = []
