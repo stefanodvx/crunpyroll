@@ -1,6 +1,6 @@
 from enum import Enum
 
-class SearchFilter(Enum):
+class ContentType(Enum):
     MUSIC = "music"
     SERIES = "series"
     EPISODE = "episode"

@@ -1,6 +1,7 @@
 import crunpyroll
 
 from crunpyroll import enums
+from crunpyroll import types
 
 class Search:
     async def search(
@@ -10,18 +11,18 @@ class Search:
         ratings: bool = True,
         preferred_audio_language: str = None,
         locale: str = None,
-        filters: list["enums.SearchFilter"] = [
-            enums.SearchFilter.EPISODE,
-            enums.SearchFilter.MOVIE_LISTING,
-            enums.SearchFilter.MUSIC,
-            enums.SearchFilter.SERIES,
-            enums.SearchFilter.TOP_RESULTS
+        filters: list["enums.ContentType"] = [
+            enums.ContentType.EPISODE,
+            enums.ContentType.MOVIE_LISTING,
+            enums.ContentType.MUSIC,
+            enums.ContentType.SERIES,
+            enums.ContentType.TOP_RESULTS
         ]
     ):
         await self.session.retrieve()
         filters_string = ",".join(
             filter.value for filter in filters
-            if isinstance(filter, enums.SearchFilter)
+            if isinstance(filter, enums.ContentType)
         )
         response = await self.api_request(
             method="GET",
@@ -35,4 +36,4 @@ class Search:
                 "type": filters_string
             }
         )
-        return response
+        return types.SearchResult.parse(response)
