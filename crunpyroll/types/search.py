@@ -19,5 +19,5 @@ class SearchResult:
         for sec in response["data"]:
             for item in sec["items"]:
                 if item["type"] == ContentType.SERIES.value:
-                    items.append(Series(item))
+                    items.append(Series.parse(item))
         return cls(len(items), items)

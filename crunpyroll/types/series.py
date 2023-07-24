@@ -27,3 +27,10 @@ class Series:
         self.keywords: str = data.get("keywords")
         self.is_subbed: bool = data.get("is_subbed")
         self.description: str = data.get("description")
+
+    @classmethod
+    def parse(cls, data: dict):
+        if "series_metadata" in data:
+            data.update(data["series_metadata"])
+            data.pop("series_metadata")
+        return cls(data)
