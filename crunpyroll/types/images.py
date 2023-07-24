@@ -15,4 +15,5 @@ class Image:
 
     @classmethod
     def from_list(cls, lst):
+        print(lst)
         return [Image(image[0]) for image in lst]
