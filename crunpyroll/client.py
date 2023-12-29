@@ -28,6 +28,7 @@ class Client(Methods):
     """
     def __init__(
         self,
+        *,
         email: str,
         password: str,
         locale: str = "en-US",
