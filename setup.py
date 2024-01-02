@@ -4,24 +4,18 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="crunchyroll-beta",
-    version="1.4.3",
+    name="crunpyroll",
+    version="2.0",
     author="stefanodvx",
     author_email="pp.stefanodvx@gmail.com",
-    description="API for Crunchyroll BETA",
+    description="Async API wrapper for Crunchyroll",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/stefanodvx/crunchyroll",
+    url="https://github.com/stefanodvx/crunpyroll",
     project_urls={
-        "Tracker": "https://github.com/stefanodvx/crunchyroll/issues",
+        "Tracker": "https://github.com/stefanodvx/crunpyroll/issues",
     },
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "Operating System :: OS Independent",
-    ],
-    install_requires=[
-        "requests",
-    ],
+    install_requires=["httpx"],
     packages=setuptools.find_packages(),
-    python_requires=">=3.6",
+    python_requires=">=3.11",
 )
