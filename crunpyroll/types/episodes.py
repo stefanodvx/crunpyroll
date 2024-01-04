@@ -5,14 +5,15 @@ from .images import Images
 from ..utils import str_to_date
 
 from datetime import datetime
-    
+from typing import List, Dict
+
 class EpisodesQuery(Object):
-    def __init__(self, data: dict):
+    def __init__(self, data: Dict):
         self.total: int = data.get("total")
-        self.items: list["Episode"] = data.get("items")
+        self.items: List["Episode"] = data.get("items")
 
     @classmethod
-    def parse(cls, obj: dict):
+    def parse(cls, obj: Dict):
         data = {}
         data["total"] = obj["total"]
         data["items"] = [
@@ -22,7 +23,7 @@ class EpisodesQuery(Object):
         return cls(data)
 
 class Episode(Content):
-    def __init__(self, data: dict):
+    def __init__(self, data: Dict):
         self.id: str = data.get("id")
         self.title: str = data.get("title")
         self.slug: str = data.get("slug_title")
@@ -41,9 +42,9 @@ class Episode(Content):
         self.season_slug_title: str = data.get("season_slug_title")
         self.series_id: str = data.get("series_id")
         self.series_slug: str = data.get("series_slug_title")
-        self.subtitle_locales: list[str] = data.get("subtitle_locales")
+        self.subtitle_locales: List[str] = data.get("subtitle_locales")
         self.audio_locales: str = data.get("audio_locale")
-        self.maturity_ratings: list[str] = data.get("maturity_ratings")
+        self.maturity_ratings: List[str] = data.get("maturity_ratings")
         self.channel_id: str = data.get("channel_id")
         self.images: "Images" = Images(data.get("images", {}))
         self.has_closed_captions: bool = data.get("closed_captions_available")
@@ -57,7 +58,7 @@ class Episode(Content):
         self.is_mature: bool = data.get("is_mature")
     
     @classmethod
-    def parse(cls, obj: dict):
+    def parse(cls, obj: Dict):
         data = {}
         data.update(obj)
         if "episode_metadata" in obj:

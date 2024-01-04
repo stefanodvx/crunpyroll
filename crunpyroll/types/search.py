@@ -5,17 +5,21 @@ from .series import Series
 from .episodes import Episode
 from .movies import Movie
 
+from typing import Union, List, Dict
+
+ITEMS_TYPING = Union[List["Series"], List["Episode"], List["Movie"]]
+
 class SearchQuery(Object):
     def __init__(
         self,
         total: int,
-        items: list
+        items: List
     ):
         self.total: int = total
-        self.items: list["Series"] | list["Episode"] | list["Movie"] = items
+        self.items: ITEMS_TYPING = items
         
     @classmethod
-    def parse(cls, response: dict):
+    def parse(cls, response: Dict):
         # TODO: Add support for Music
         items = []
         for sec in response["data"]:

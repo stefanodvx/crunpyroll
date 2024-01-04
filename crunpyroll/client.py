@@ -6,7 +6,10 @@ from .errors import CrunpyrollException
 from .enums import APIHost
 from .types.obj import Object
 
-from mpegdash.parser import MPEGDASHParser
+from typing import (
+    Union, Optional,
+    Dict
+)
 
 import httpx
 import json
@@ -33,7 +36,7 @@ class Client(Object, Methods):
         email: str,
         password: str,
         locale: str = "en-US",
-        proxies: dict | str = None
+        proxies: Union[Dict, str] = None
     ) -> None:
         self.email: str = email
         self.password: str = password
@@ -53,7 +56,7 @@ class Client(Object, Methods):
         return await self.session.authorize()
 
     @staticmethod
-    def parse_response(response: httpx.Response) -> dict | str | None:
+    def parse_response(response: httpx.Response) -> Optional[Union[Dict, str]]:
         status_code = response.status_code
         text_content = response.text
         message = f"[{status_code}] {text_content}"
@@ -71,10 +74,10 @@ class Client(Object, Methods):
         endpoint: str,
         host: APIHost = APIHost.BETA,
         url: str = None,
-        params: dict = None,
-        headers: dict = None,
-        payload: dict = None
-    ) -> dict | None:
+        params: Dict = None,
+        headers: Dict = None,
+        payload: Dict = None
+    ) -> Optional[Dict]:
         if not url:
             url = "https://" + host.value + "/" + endpoint
         else:
@@ -94,7 +97,7 @@ class Client(Object, Methods):
     async def manifest_request(
         self,
         url: str,
-        headers: dict = None,
+        headers: Dict = None,
     ) -> str:
         api_headers = get_api_headers(headers)
         if self.session.is_authorized:

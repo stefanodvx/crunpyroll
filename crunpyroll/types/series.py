@@ -1,17 +1,19 @@
 from .images import Images
 from .content import Content
 
+from typing import List, Dict
+
 class Series(Content):
-    def __init__(self, data: dict):
+    def __init__(self, data: Dict):
         self.id: str = data.get("id")
         self.title: str = data.get("title")
         self.slug: str = data.get("slug_title")
         self.description: str = data.get("description")
         self.season_count: int = data.get("season_count")
         self.episode_count: int = data.get("episode_count")
-        self.subtitle_locales: list[str] = data.get("subtitle_locales")
-        self.audio_locales: list[str] = data.get("audio_locales")
-        self.maturity_ratings: list[str] = data.get("maturity_ratings")
+        self.subtitle_locales: List[str] = data.get("subtitle_locales")
+        self.audio_locales: List[str] = data.get("audio_locales")
+        self.maturity_ratings: List[str] = data.get("maturity_ratings")
         self.launch_year: str = data.get("series_launch_year")
         self.channel_id: str = data.get("channel_id")
         self.images: "Images" = Images(data.get("images", {}))
@@ -22,10 +24,10 @@ class Series(Content):
         self.is_mature: bool = data.get("is_mature")
 
     @classmethod
-    def parse(cls, obj: dict):
+    def parse(cls, obj: Dict):
         data = {}
         if "data" in obj:
-            if isinstance(obj["data"], list):
+            if isinstance(obj["data"], List):
                 data.update(obj["data"][0])
             else:
                 data.update(obj["data"])

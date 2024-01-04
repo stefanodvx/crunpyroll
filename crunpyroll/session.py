@@ -10,6 +10,8 @@ from .utils import (
 
 from .errors import ClientNotAuthorized
 
+from typing import Optional
+
 import crunpyroll
 
 class Session:
@@ -38,7 +40,7 @@ class Session:
         if date >= self.expiration:
             await self.refresh()
     
-    async def authorize(self) -> bool | None:
+    async def authorize(self) -> Optional[bool]:
         response = await self._client.api_request(
             method="POST",
             endpoint="auth/v1/token",
@@ -62,7 +64,7 @@ class Session:
         )
         return True
     
-    async def refresh(self) -> bool | None:
+    async def refresh(self) -> Optional[bool]:
         response = await self._client.api_request(
             method="POST",
             endpoint="auth/v1/token",

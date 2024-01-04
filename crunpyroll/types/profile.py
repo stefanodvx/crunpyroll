@@ -1,7 +1,9 @@
 from .obj import Object
 
+from typing import Dict
+
 class Profile(Object):
-    def __init__(self, data: dict):
+    def __init__(self, data: Dict):
         self.avatar: str = data.get("avatar")
         self.beta: bool = data.get("cr_beta_opt_in")
         self.email_verified: bool = data.get("crleg_email_verified")

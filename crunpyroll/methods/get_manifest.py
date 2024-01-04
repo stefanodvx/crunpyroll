@@ -1,10 +1,12 @@
+from crunpyroll import types
+
 import crunpyroll
 
 class GetManifest:
     async def get_manifest(
         self: "crunpyroll.Client",
         url: str
-    ) -> str:
+    ) -> "types.Manifest":
         await self.session.retrieve()
         response = await self.manifest_request(url)
-        return response
+        return types.Manifest.parse(response)

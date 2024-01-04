@@ -10,3 +10,6 @@ from .content import Content
 from .streams import MediaStreams
 from .subtitles import SubtitlesStream
 from .hardsub import HardsubStream
+from .old_streams import OldMediaStreams
+from .manifest import Manifest, ManifestVideoStream, ManifestAudioStream
+from .drm import DRM, ContentProtection

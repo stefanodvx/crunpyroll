@@ -1,8 +1,8 @@
-import json
-import typing
-
 from datetime import datetime
 from enum import Enum
+
+import json
+import typing
 
 class Object:
     @staticmethod

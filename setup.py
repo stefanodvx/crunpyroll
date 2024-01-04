@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="crunpyroll",
-    version="2.0",
+    version="2.0.1",
     author="stefanodvx",
     author_email="pp.stefanodvx@gmail.com",
     description="Async API wrapper for Crunchyroll",
@@ -15,7 +15,7 @@ setuptools.setup(
     project_urls={
         "Tracker": "https://github.com/stefanodvx/crunpyroll/issues",
     },
-    install_requires=["httpx"],
+    install_requires=["httpx", "xmltodict"],
     packages=setuptools.find_packages(),
-    python_requires=">=3.11",
+    python_requires=">=3.7",
 )

@@ -31,11 +31,16 @@ async def main():
     seasons = await client.get_seasons(series_id)
     print(seasons)
 
-with asyncio.Runner() as runner:
-    runner.run(main())
+asyncio.run(main())
 ```
 ### Downloading content 🔑
-Crunchyroll has recently integrated the **Widevine Digital Rights Management (DRM)** system, resulting in challenges for certain users attempting to download content from the platform. Subsequently, the following provides an illustrative example of obtaining decryption keys through the utilities of the [pywidevine](https://github.com/devine-dl/pywidevine) library and an L3 Content Decryption Module (CDM).
+Crunchyroll has recently implemented the Widevine and PlayReady **Digital Rights Management (DRM)** systems, which has led to challenges for certain users attempting to download content from the platform. Currently, there are two available methods for downloading content from the platform:
+- Using `Client.get_streams` method: this is the latest and 'right' way to get streams. Provided streams will be protected by Widevine and PlayReady DRMs.
+- Using `Client.get_old_streams` method: this method will provide access to unprotected streams, eliminating the need for concern regarding DRM.
+> [!WARNING]  
+>  It is important to note that this method relies on a deprecated endpoint, and there is a possibility that it may cease to function unexpectedly. We strongly recommend updating your code to incorporate the `Client.get_streams` method for a more reliable and sustainable solution.
+
+Subsequently, the following code provides an illustrative example of obtaining decryption keys through the utilities of the [pywidevine](https://github.com/devine-dl/pywidevine) library and an L3 Content Decryption Module (CDM).
 ```py3
 from pywidevine.cdm import Cdm
 from pywidevine.pssh import PSSH
@@ -49,7 +54,7 @@ streams = await client.get_streams("GRVDQ1G4R")
 manifest = await client.get_manifest(streams.hardsubs[0].url)
 # print(manifest)
 # Get Widevine PSSH from manifest
-pssh = PSSH("AAAAoXBzc2gAAAAA7e.........")
+pssh = PSSH(manifest.content_protection.widevine.pssh)
 session_id = cdm.open()
 challenge = cdm.get_license_challenge(session_id, pssh)
 license = await client.get_license(
@@ -74,3 +79,4 @@ cdm.close(session_id)
 - Add support for Music
 - Add missing documentation
 - Add missing API methods
+- Add support for PlayReady DRM

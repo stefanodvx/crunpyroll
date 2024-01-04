@@ -7,6 +7,7 @@ from .get_episodes import GetEpisodes
 from .get_streams import GetStreams
 from .get_manifest import GetManifest
 from .get_license import GetLicense
+from .get_old_streams import GetOldStreams
 
 class Methods(
     Search,
@@ -17,6 +18,7 @@ class Methods(
     GetEpisodes,
     GetStreams,
     GetManifest,
-    GetLicense
+    GetLicense,
+    GetOldStreams
 ):
     pass

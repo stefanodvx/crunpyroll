@@ -1,6 +1,8 @@
 from crunpyroll import enums
 from crunpyroll import types
 
+from typing import List
+
 import crunpyroll
 
 class Search:
@@ -10,7 +12,7 @@ class Search:
         *,
         max_results: int = 6,
         locale: str = None,
-        filters: list["enums.ContentType"] = [
+        filters: List["enums.ContentType"] = [
             enums.ContentType.SERIES,
             enums.ContentType.MOVIE_LISTING,
             enums.ContentType.EPISODE,

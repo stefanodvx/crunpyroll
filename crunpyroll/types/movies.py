@@ -1,13 +1,13 @@
-from .obj import Object
 from .content import Content
 from .images import Images
 
 from ..utils import str_to_date
 
+from typing import List, Dict
 from datetime import datetime
     
 class Movie(Content):
-    def __init__(self, data: dict):
+    def __init__(self, data: Dict):
         self.id: str = data.get("id")
         self.title: str = data.get("title")
         self.slug: str = data.get("slug_title")
@@ -17,9 +17,9 @@ class Movie(Content):
         self.release_year: int = data.get("movie_release_year")
         self.description: str = data.get("description")
         self.first_movie_id: str = data.get("first_movie_id")
-        self.subtitle_locales: list[str] = data.get("subtitle_locales")
+        self.subtitle_locales: List[str] = data.get("subtitle_locales")
         self.audio_locales: str = data.get("audio_locale")
-        self.maturity_ratings: list[str] = data.get("maturity_ratings")
+        self.maturity_ratings: List[str] = data.get("maturity_ratings")
         self.channel_id: str = data.get("channel_id")
         self.images: "Images" = Images(data.get("images"))
         self.has_closed_captions: bool = data.get("closed_captions_available")
@@ -33,10 +33,10 @@ class Movie(Content):
         self.is_mature: bool = data.get("is_mature")
     
     @classmethod
-    def parse(cls, obj: dict):
+    def parse(cls, obj: Dict):
         data = {}
         if "data" in obj:
-            if isinstance(obj["data"], list):
+            if isinstance(obj["data"], List):
                 data.update(obj["data"][0])
             else:
                 data.update(obj["data"])
