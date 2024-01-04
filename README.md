@@ -2,13 +2,18 @@
 
 ## Crunpyroll 2.0 is HERE!
 - Fully async ([httpx](https://www.python-httpx.org/))
-- Python 3.11 support
+- Python 3.7+ support
 - Clean and modern code
 - Updated to latest Crunchyroll API
 ### Installation ⚙️
 ```bash
-pip install git+https://github.com/stefanodvx/crunpyroll@main
+# Using Git
+pip install -U git+https://github.com/stefanodvx/crunpyroll
+
+# Using PyPi (Recommended)
+pip install -U crunpyroll
 ```
+
 
 ### Example Code ❓
 ```py3
