@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/y3L6XfN.png" align="right" />
+![crunpyroll](https://github.com/stefanodvx/crunpyroll/assets/69367859/d8c58fa8-e91f-4e87-9802-fa50fb1841e2)
 
 ## Crunpyroll 2.0 is HERE!
 - Fully async ([httpx](https://www.python-httpx.org/))
