@@ -39,9 +39,7 @@ copybutton_prompt_text = "$ "
 html_title = "Crunpyroll Documentation"
 html_theme = "furo"
 html_static_path = [os.path.abspath("static")]
-html_css_files = [
-    html_static_path[0] + "/css/custom.css",
-]
+html_css_files = ["css/custom.css"]
 html_favicon = html_static_path[0] + "/images/logo.png"
 copy_html_static_files = True
 
