@@ -15,6 +15,7 @@ def generate_documentation(
     template: str,
     auto_type: str,
 ):
+    template_lines = []
     root = DEST + directory
     shutil.rmtree(root, ignore_errors=True)
     os.mkdir(root)
@@ -25,11 +26,10 @@ def generate_documentation(
             f.write(f".. auto{auto_type}:: {base_class}.{key}()")
 
     # Build list
-    template_lines = []
     template_lines.extend([
         "\n\n",
-        ".. autosummary::",
-        "   :nosignatures:",
+        ".. autosummary::\n",
+        "   :nosignatures:\n",
         "\n\n"
     ])
 
@@ -37,11 +37,10 @@ def generate_documentation(
         template_lines.append(f"    {key} <{key}>\n")
 
     # Build TOC
-    template_lines = []
     template_lines.extend([
         "\n\n",
-        ".. toctree::",
-        "   :hidden:",
+        ".. toctree::\n",
+        "   :hidden:\n",
         "\n\n"
     ])
 
