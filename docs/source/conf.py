@@ -43,6 +43,7 @@ html_css_files = [
     "css/all.min.css",
     "css/custom.css",
 ]
+html_favicon = html_static_path[0] + "/images/logo.png"
 copy_html_static_files = True
 
 todo_include_todos = True
@@ -70,6 +71,8 @@ html_theme_options = {
     ]
 }
 
+latex_engine = "xelatex"
+latex_logo = os.path.abspath("static/images/logo.png")
 latex_elements = {
     "pointsize": "12pt",
     "fontpkg": r"""
