@@ -9,7 +9,7 @@ venv:
 	$(RM) $(VENV)
 	python3 -m venv $(VENV)
 	$(PYTHON) -m pip install -U pip wheel setuptools
-	$(PYTHON) -m pip install -U sphinx furo pygments sphinx_copybutton sphinx-autobuild
+	$(PYTHON) -m pip install -U sphinx furo pygments sphinx_copybutton sphinx-autobuild xmltodict
 	@echo "Created venv with $$($(PYTHON) --version)"
 
 clean-docs:
