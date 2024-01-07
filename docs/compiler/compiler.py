@@ -23,10 +23,19 @@ def generate_documentation(
         with open(root + f"/{key}.rst", "w") as f:
             f.write(key + "\n" + "=" * len(key) + "\n\n")
             f.write(f".. auto{auto_type}:: {base_class}.{key}()")
-        template += "\n\n"
-        template += ".. toctree::\n"
-        template += "   :hidden:\n\n"
-        template += f"   {key}"
+        template_lines = [
+            "\n",
+            ".. autosummary::\n",
+            "   :nosignatures:\n",
+            "\n\n",
+            f"  {key}",
+            "\n\n",
+            ".. toctree::\n",
+            "   :hidden:\n\n",
+            f"  {key}",
+        ]
+        for line in template_lines:
+            template += line
         
     with open(root + "/index.rst", "w") as index:
         index.write(template)
