@@ -1,6 +1,17 @@
-![crunpyroll](https://github.com/stefanodvx/crunpyroll/assets/69367859/255bd391-3a7c-44f1-bf8c-08de275e73e9)
+<p align="center">
+    <a href="https://github.com/stefanodvx/crunpyroll">
+        <img src="https://github.com/stefanodvx/crunpyroll/assets/69367859/255bd391-3a7c-44f1-bf8c-08de275e73e9" alt="Crunpyroll">
+    </a>
+    <br>
+    <a href="https://crunpyroll.readthedocs.io/">
+        Documentation
+    </a>
+    •
+    <a href="https://t.me/crunpyroll">
+        News
+    </a>
+</p>
 
-## Crunpyroll 2.0 is HERE!
 - Fully async ([httpx](https://www.python-httpx.org/))
 - Python 3.7+ support
 - Clean and modern code
