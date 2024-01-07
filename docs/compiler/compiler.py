@@ -15,6 +15,7 @@ def generate_documentation(
     base_class: str,
     template: str,
     auto_type: str,
+    autodocs_args: List[str] = [],
 ):
     template_lines = []
     root = DEST + directory
@@ -25,6 +26,8 @@ def generate_documentation(
         with open(root + f"/{key}.rst", "w") as f:
             f.write(key + "\n" + "=" * len(key) + "\n\n")
             f.write(f".. auto{auto_type}:: {base_class}.{key}()")
+            for arg in autodocs_args:
+                f.write(f"\n   :{arg}:")
 
     # Build list
     template_lines.extend([
@@ -108,6 +111,7 @@ if "__main__" == __name__:
         directory="/enums",
         base_class="crunpyroll.enums",
         auto_type="class",
+        autodocs_args="members",
         template=ENUMS_TEMPLATE,
         keys=[
             "ContentType",

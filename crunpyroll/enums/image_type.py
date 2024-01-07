@@ -4,13 +4,13 @@ class ImageType(Enum):
     """Images type enumeration."""
 
     POSTER_TALL = "poster_tall"
-    """Image is vertical."""
+    "Image is vertical."
 
     POSTER_WIDE = "poster_wide"
-    """Image is horizontal."""
+    "Image is horizontal."
 
     PROMO_IMAGE = "promo_image"
-    """Promotional image."""
+    "Promotional image."
 
     THUMBNAIL = "thumbnail"
-    """Thumbnail used for episodes."""
+    "Thumbnail used for episodes."
