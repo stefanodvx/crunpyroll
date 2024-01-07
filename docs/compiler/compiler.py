@@ -111,7 +111,7 @@ if "__main__" == __name__:
         directory="/enums",
         base_class="crunpyroll.enums",
         auto_type="class",
-        autodocs_args="members",
+        autodocs_args=["members"],
         template=ENUMS_TEMPLATE,
         keys=[
             "ContentType",
