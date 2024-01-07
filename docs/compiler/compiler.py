@@ -24,7 +24,7 @@ def generate_documentation(
             f.write(key + "\n" + "=" * len(key) + "\n\n")
             f.write(f".. auto{auto_type}:: {base_class}.{key}()")
         template_lines = [
-            "\n",
+            "\n\n",
             ".. autosummary::\n",
             "   :nosignatures:\n",
             "\n\n",
