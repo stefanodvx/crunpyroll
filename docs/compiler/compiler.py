@@ -1,6 +1,8 @@
 import os
 import shutil
 
+from typing import List
+
 DEST = "../source/api"
 
 METHODS_TEMPLATE = open("template/methods.rst", encoding="UTF-8").read()
@@ -8,7 +10,7 @@ TYPES_TEMPLATE = open("template/types.rst", encoding="UTF-8").read()
 
 def generate_documentation(
     directory: str,
-    keys: list[str],
+    keys: List[str],
     base_class: str,
     template: str,
     auto_type: str,
