@@ -43,6 +43,7 @@ html_css_files = [
     "css/all.min.css",
     "css/custom.css",
 ]
+copy_html_static_files = True
 
 todo_include_todos = True
 
