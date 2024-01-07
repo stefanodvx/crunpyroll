@@ -7,6 +7,7 @@ DEST = "../source/api"
 
 METHODS_TEMPLATE = open("template/methods.rst", encoding="UTF-8").read()
 TYPES_TEMPLATE = open("template/types.rst", encoding="UTF-8").read()
+ENUMS_TEMPLATE = open("template/enums.rst", encoding="UTF-8").read()
 
 def generate_documentation(
     directory: str,
@@ -100,5 +101,17 @@ if "__main__" == __name__:
             "DRM",
             "Image",
             "Images"
+        ]
+    )
+
+    generate_documentation(
+        directory="/enums",
+        base_class="crunpyroll.enums",
+        auto_type="class",
+        template=ENUMS_TEMPLATE,
+        keys=[
+            "ContentType",
+            "ImageType",
+            "APIHost"
         ]
     )

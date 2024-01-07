@@ -30,3 +30,4 @@ in the top left corner.
     api/client
     api/methods/index
     api/types/index
+    api/enums/index
