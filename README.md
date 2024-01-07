@@ -2,21 +2,19 @@
     <a href="https://github.com/stefanodvx/crunpyroll">
         <img src="https://github.com/stefanodvx/crunpyroll/assets/69367859/255bd391-3a7c-44f1-bf8c-08de275e73e9" alt="Crunpyroll">
     </a>
-    <br>
-    <a href="https://crunpyroll.readthedocs.io/">
-        Documentation
-    </a>
-    •
-    <a href="https://t.me/crunpyroll">
-        News
-    </a>
 </p>
 
+---
+
+#### Features 🔥
 - Fully async ([httpx](https://www.python-httpx.org/))
 - Python 3.7+ support
 - Clean and modern code
 - Updated to latest Crunchyroll API
-### Installation ⚙️
+
+---
+
+#### Installation ⚙️
 ```bash
 # Using Git
 pip install -U git+https://github.com/stefanodvx/crunpyroll
@@ -25,8 +23,14 @@ pip install -U git+https://github.com/stefanodvx/crunpyroll
 pip install -U crunpyroll
 ```
 
+---
 
-### Example Code ❓
+#### Documentation 📄
+The documentation page undergoes automatic updates with each push. To access the latest documentation page, kindly refer to our [Read the Docs](https://crunpyroll.readthedocs.io/) project.
+
+---
+
+#### Example Code ❓
 ```py3
 import crunpyroll
 import asyncio
@@ -49,7 +53,10 @@ async def main():
 
 asyncio.run(main())
 ```
-### Downloading content 🔑
+
+---
+
+#### Downloading content 🔑
 Crunchyroll has recently implemented the Widevine and PlayReady **Digital Rights Management (DRM)** systems, which has led to challenges for certain users attempting to download content from the platform. Currently, there are two available methods for downloading content from the platform:
 - Using `Client.get_streams` method: this is the latest and 'right' way to get streams. Provided streams will be protected by Widevine and PlayReady DRMs.
 - Using `Client.get_old_streams` method: this method will provide access to unprotected streams, eliminating the need for concern regarding DRM.
@@ -89,10 +96,16 @@ cdm.close(session_id)
 ```
 ###### Decryption keys are universally applicable to both video and audio streams, maintaining consistency across all available formats.
 
-### TODO 📄
+---
+
+#### TODO List 📄
 - Add support for token login
 - Add support for visitor view (authless)
 - Add support for Music
 - Add missing documentation
 - Add missing API methods
 - Add support for PlayReady DRM
+
+---
+
+###### Stay informed about the latest developments by joining our [Telegram Channel](https://t.me/crunpyroll).
