@@ -5,6 +5,8 @@ from typing import Dict
 
 class SessionIndex(Object):
     """
+    Get session index, including CMS.
+
     Parameters:
         cms (:obj:`~crunpyroll.types.CMS`)
 

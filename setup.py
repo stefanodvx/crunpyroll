@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="crunpyroll",
-    version="2.1.4",
+    version="2.1.5",
     author="stefanodvx",
     author_email="pp.stefanodvx@gmail.com",
     description="Async API wrapper for Crunchyroll",
