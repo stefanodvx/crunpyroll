@@ -10,6 +10,20 @@ class GetStreams:
         *,
         locale: str = None,
     ) -> "types.MediaStreams":
+        """
+        Get available streams of a media.
+
+        Parameters:
+            media_id (``str``):
+                Unique identifier of the media.
+            locale (``str``, *optional*):
+                Localize request for different results.
+                Default to the one used in Client.
+
+        Returns:
+            :obj:`~crunpyroll.types.MediaStreams`:
+                On success, streams are returned.
+        """
         await self.session.retrieve()
         response = await self.api_request(
             method="GET",

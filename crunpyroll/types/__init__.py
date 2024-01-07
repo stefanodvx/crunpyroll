@@ -1,10 +1,11 @@
 from .series import Series
 from .seasons import SeasonsQuery, Season
 from .episodes import EpisodesQuery, Episode
+from .movies import Movie
 from .search import SearchQuery
 from .images import Image, Images
 from .cms import CMS
-from .index import Index
+from .index import SessionIndex
 from .profile import Profile
 from .content import Content
 from .streams import MediaStreams

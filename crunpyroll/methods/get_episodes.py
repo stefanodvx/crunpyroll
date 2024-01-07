@@ -9,6 +9,20 @@ class GetEpisodes:
         *,
         locale: str = None
     ) -> "types.EpisodesQuery":
+        """
+        Get list of episodes from a season.
+
+        Parameters:
+            season_id (``str``):
+                Unique identifier of the season.
+            locale (``str``, *optional*):
+                Localize request for different results.
+                Default to the one used in Client.
+                
+        Returns:
+            :obj:`~crunpyroll.types.EpisodesQuery`:
+                On success, query of episodes is returned.
+        """
         await self.session.retrieve()
         response = await self.api_request(
             method="GET",

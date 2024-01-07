@@ -9,6 +9,20 @@ class GetSeries:
         *,
         locale: str = None,
     ) -> "types.Series":
+        """
+        Get informations about a series.
+
+        Parameters:
+            series_id (``str``):
+                Unique identifier of the series.
+            locale (``str``, *optional*):
+                Localize request for different results.
+                Default to the one used in Client.
+
+        Returns:
+            :obj:`~crunpyroll.types.Series`:
+                On success, series object is returned.
+        """
         await self.session.retrieve()
         response = await self.api_request(
             method="GET",

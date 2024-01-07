@@ -19,16 +19,15 @@ class Client(Object, Methods):
     
     Parameters:
         email (``str``):
-            Email or username of the account
+            Email or username of the account.
         password (``str``):
-            Password of the account
-        locale (``str``, optional):
-            The language to use in Crunchyroll
-            E.g.: en-US, it-IT...
-            Default to en-US
-        proxies (``dict | str``, optional):
-            Proxies for Crunchyroll
-            E.g.: https://0.0.0.0:8080 or {"https://": "0.0.0.0:8080"}
+            Password of the account.
+        locale (``str``, *optional*):
+            The language to use in Crunchyroll.
+            Default to 'en-US'
+        proxies (``str`` | ``dict``, *optional*):
+            Proxies for HTTP requests.
+            Default to None
     """
     def __init__(
         self,
@@ -46,11 +45,6 @@ class Client(Object, Methods):
         self.session = Session(self)
 
     async def start(self):
-        """Start Crunchyroll Client and login.
-
-        Returns:
-            ``bool``: On success, True is returned.
-        """
         if self.session.is_authorized:
             raise CrunpyrollException("Client is already authorized and started.")
         return await self.session.authorize()

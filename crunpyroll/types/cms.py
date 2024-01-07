@@ -6,6 +6,20 @@ from datetime import datetime
 from typing import Dict
 
 class CMS(Object):
+    """
+    Content Management System for Crunchyroll.
+
+    Parameters:
+        bucket (``str``)
+
+        policy (``str``)
+
+        signature (``str``)
+
+        key_pair_id (``str``)
+
+        expires (:py:obj:`~datetime.datetime`)
+    """
     def __init__(self, data: Dict):
         self.bucket: str = data.get("bucket")
         self.policy: str = data.get("policy")

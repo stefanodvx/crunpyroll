@@ -4,6 +4,51 @@ from .content import Content
 from typing import List, Dict
 
 class Series(Content):
+    """
+    Info about a series.
+
+    Parameters:
+        id (``str``):
+            Unique identifier of the series.
+
+        title (``str``):
+            Title of the series.
+
+        slug (``str``):
+            Slug of the series.
+
+        description (``str``):
+            Number of the series.
+
+        season_count (``int``):
+            Season count of the series.
+
+        episode_count (``int``):
+            Episode count of the series.
+
+        launch_year (``int``):
+            Leanch year of the series.
+
+        subtitle_locales (List of ``str``):
+            List containing language codes of available subtitles.
+
+        audio_locales (``str``):
+            Language code of the audio.
+
+        maturity_ratings (List of ``str``)
+
+        is_simulcast (``bool``):
+            True, if this season is simulcast (currently airing).
+        
+        is_subbed (``bool``):
+            True, if this season got subtitles.
+
+        is_dubbed (``bool``):
+            True, if this season got dubs.
+
+        is_mature (``bool``):
+            True, if this season is NSFW.
+    """
     def __init__(self, data: Dict):
         self.id: str = data.get("id")
         self.title: str = data.get("title")
@@ -14,10 +59,8 @@ class Series(Content):
         self.subtitle_locales: List[str] = data.get("subtitle_locales")
         self.audio_locales: List[str] = data.get("audio_locales")
         self.maturity_ratings: List[str] = data.get("maturity_ratings")
-        self.launch_year: str = data.get("series_launch_year")
-        self.channel_id: str = data.get("channel_id")
+        self.launch_year: int = data.get("series_launch_year")
         self.images: "Images" = Images(data.get("images", {}))
-        self.is_mature_blocked: bool = data.get("mature_blocked")
         self.is_simulcast: bool = data.get("is_simulcast")
         self.is_subbed: bool = data.get("is_subbed")
         self.is_dubbed: bool = data.get("is_dubbed")

@@ -3,7 +3,15 @@ from .obj import Object
 
 from typing import Dict
 
-class Index(Object):
+class SessionIndex(Object):
+    """
+    Parameters:
+        cms (:obj:`~crunpyroll.types.CMS`)
+
+        cms_beta (:obj:`~crunpyroll.types.CMS`)
+
+        cms_web (:obj:`~crunpyroll.types.CMS`)
+    """
     def __init__(self, data: Dict):
         self.cms: CMS = CMS(data.get("cms"))
         self.cms_beta: CMS = CMS(data.get("cms_beta"))

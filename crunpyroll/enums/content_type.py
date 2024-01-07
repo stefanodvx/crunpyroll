@@ -4,4 +4,4 @@ class ContentType(Enum):
     MUSIC = "music"
     SERIES = "series"
     EPISODE = "episode"
-    MOVIE_LISTING = "movie_listing"
+    MOVIE = "movie_listing"

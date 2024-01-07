@@ -5,6 +5,31 @@ from .hardsub import HardsubStream
 from typing import List, Dict
 
 class OldMediaStreams(Object):
+    """
+    Info about streams of a media content.
+
+    Parameters:
+        media_id (``str``):
+            Unique identifier of the media.
+
+        audio_locale (``str``):
+            Audio language code of the media..
+
+        dash_url (``str``):
+            DASH Manifest URL to raw media (No subtitles)
+
+        hls_url (``str``):
+            HLS Manifest URL to raw media (No subtitles)
+
+        subtitles (List of :obj:`~crunpyroll.types.SubtitlesStream`):
+            List of available subtitles stream.
+
+        hardsub_dash (List of :obj:`~crunpyroll.types.HardsubStream`):
+            List of available DASH hardsubs stream.
+
+        hardsub_hls (List of :obj:`~crunpyroll.types.HardsubStream`):
+            List of available HLS hardsubs stream.
+    """
     def __init__(self, data: Dict):
         self.media_id: str = data.get("media_id")
         self.audio_locale: str = data.get("audioLocale")

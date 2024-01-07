@@ -6,6 +6,13 @@ class GetIndex:
     async def get_index(
         self: "crunpyroll.Client",
     ) -> "types.Index":
+        """
+        Get session index. It's unlikely that you would use this method.
+
+        Returns:
+            :obj:`~crunpyroll.types.SessionIndex`:
+                On success, informations about session index are returned.
+        """
         await self.session.retrieve()
         response = await self.api_request(
             method="GET",
