@@ -1,6 +1,3 @@
-Welcome to Crunpyroll
-=====================
-
 .. raw:: html
 
     <div>
