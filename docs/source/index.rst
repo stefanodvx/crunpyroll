@@ -6,7 +6,7 @@ Welcome to Crunpyroll
     <div>
         <a href="/">
             <div class="logo-index">
-               <img src="_static/logo-wide.png" alt="Crunpyroll">
+               <img src="_static/images/logo-wide.png" alt="Crunpyroll">
             </div>
         </a>
     </div>
