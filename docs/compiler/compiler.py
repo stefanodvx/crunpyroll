@@ -1,10 +1,10 @@
 import os
 import shutil
 
-DEST = "docs/source/api"
+DEST = "../source/api"
 
-METHODS_TEMPLATE = open("docs/compiler/template/methods.rst", encoding="UTF-8").read()
-TYPES_TEMPLATE = open("docs/compiler/template/types.rst", encoding="UTF-8").read()
+METHODS_TEMPLATE = open("template/methods.rst", encoding="UTF-8").read()
+TYPES_TEMPLATE = open("template/types.rst", encoding="UTF-8").read()
 
 def generate_documentation(
     directory: str,
