@@ -60,8 +60,8 @@ asyncio.run(main())
 Crunchyroll has recently implemented the Widevine and PlayReady **Digital Rights Management (DRM)** systems, which has led to challenges for certain users attempting to download content from the platform. Currently, there are two available methods for downloading content from the platform:
 - Using `Client.get_streams` method: this is the latest and 'right' way to get streams. Provided streams will be protected by Widevine and PlayReady DRMs.
 - Using `Client.get_old_streams` method: this method will provide access to unprotected streams, eliminating the need for concern regarding DRM.
-> [!WARNING]  
->  It is important to note that this method relies on a deprecated endpoint, and there is a possibility that it may cease to function unexpectedly. We strongly recommend updating your code to incorporate the `Client.get_streams` method for a more reliable and sustainable solution.
+> [!WARNING]
+> It is important to note that this method relies on a deprecated endpoint, and there is a possibility that it may cease to function unexpectedly. We strongly recommend updating your code to incorporate the `Client.get_streams` method for a more reliable and sustainable solution.
 
 Subsequently, the following code provides an illustrative example of obtaining decryption keys through the utilities of the [pywidevine](https://github.com/devine-dl/pywidevine) library and an L3 Content Decryption Module (CDM).
 ```py3
@@ -90,22 +90,23 @@ for key in cdm.get_keys(session_id, "CONTENT"):
     print(f"{key.kid.hex}:{key.key.hex()}")
 cdm.close(session_id)
 ```
-##### Output:
+Output:
 ```bash
 056ec1ca849e350181753cacc9bd404b:2307a188ecd8de3859b71b30791f171d
 ```
-###### Decryption keys are universally applicable to both video and audio streams, maintaining consistency across all available formats.
+> [!TIP]
+> Decryption keys are universally applicable to both video and audio streams, maintaining consistency across all available formats.
 
 ---
 
 #### TODO List 📄
-- Add support for token login
-- Add support for visitor view (authless)
-- Add support for Music
-- Add missing documentation
-- Add missing API methods
-- Add support for PlayReady DRM
+- [ ] Add support for token login
+- [ ] Add support for visitor view (authless)
+- [ ] Add support for Music
+- [ ] Add missing documentation
+- [ ] Add missing API methods
+- [ ] Add support for PlayReady DRM
 
 ---
 
-###### Stay informed about the latest developments by joining our [Telegram Channel](https://t.me/crunpyroll).
+> Stay informed about the latest developments by joining our [Telegram Channel](https://t.me/crunpyroll).

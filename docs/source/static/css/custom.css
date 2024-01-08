@@ -166,6 +166,16 @@ p.admonition-title:before {
     color: var(--color-crunpyroll-text);
     letter-spacing: .0425em;
     position: relative;
+    text-align: center;
+}
+
+.brand {
+    font-family: 'crunchyroll', sans-serif;
+    font-size: 70%;
+    text-align: center;
+    color: var(--color-crunpyroll-text);
+    letter-spacing: .0425em;
+    position: relative;
 }
 
 @media(max-width: 67em) {
