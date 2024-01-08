@@ -4,6 +4,7 @@
         <a href="/">
             <div class="logo-index">
                <img src="_static/images/logo-wide.png" alt="Crunpyroll">
+               <div class="crunpyroll-text crunpyroll-text-index">crunpyroll</div>
             </div>
         </a>
     </div>

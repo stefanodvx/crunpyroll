@@ -36,7 +36,7 @@ highlight_language = "python3"
 
 copybutton_prompt_text = "$ "
 
-html_title = "Crunpyroll"
+html_title = "crunpyroll"
 html_theme = "furo"
 html_static_path = [os.path.abspath("static")]
 html_css_files = ["css/custom.css"]

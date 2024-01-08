@@ -1,5 +1,10 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css");
 
+@font-face {
+    font-family: crunchyroll;
+    src: url(../fonts/MavenPro-Bold.ttf);
+}
+
 :root {
     --border-radius: 0.5em
 }
@@ -16,6 +21,7 @@ body {
     --color-guilabel-background: #f3f2f1;
     --color-guilabel-border: #dddddd;
     --color-admonition-title--note: #f47521;
+    --color-crunpyroll-text: #f47521;
     --color-admonition-title-background--note: #e4e0d7;
     --color-admonition-title--seealso: #f47521;
     --color-highlight-target: #e2732a38;
@@ -153,6 +159,31 @@ p.admonition-title:before {
 .sidebar-container {
     width: 18em
 }
+
+.crunpyroll-text {
+    font-family: crunchyroll,sans-serif;
+    font-size: calc(var(--font-size--normal) * 3);
+    color: var(--color-crunpyroll-text);
+    letter-spacing: .0425em;
+    position: relative;
+    top: -15px;
+    font-weight: 700;
+    display: inline
+}
+
+.crunpyroll-text-index {
+    font-size: 72px;
+    position: relative
+}
+
+.crunpyroll-logo-index {
+    display: inline
+}
+
+.crunpyroll-logo-index img {
+    width: 72px
+}
+
 
 @media(max-width: 67em) {
     .sidebar-drawer {
