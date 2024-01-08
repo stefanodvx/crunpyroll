@@ -40,6 +40,7 @@ html_title = "crunpyroll"
 html_theme = "furo"
 html_static_path = [os.path.abspath("static")]
 html_css_files = ["css/custom.css"]
+html_logo = html_static_path[0] + "/images/logo.png"
 html_favicon = html_static_path[0] + "/images/logo.png"
 copy_html_static_files = True
 

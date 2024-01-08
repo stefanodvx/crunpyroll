@@ -20,12 +20,6 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.x'
-    - name: Check commit title
-      run: |
-        if [[ "$(git log -1 --pretty=%B)" == docs* ]]; then
-          echo "Commit title starts with 'docs'. Skipping deployment."
-          exit 0
-        fi
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip

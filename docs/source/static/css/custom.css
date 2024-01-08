@@ -1,7 +1,7 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css");
 
 @font-face {
-    font-family: crunchyroll;
+    font-family: 'crunchyroll';
     src: url(../fonts/MavenPro-Bold.ttf);
 }
 
@@ -161,7 +161,7 @@ p.admonition-title:before {
 }
 
 .crunpyroll-text {
-    font-family: crunchyroll,sans-serif;
+    font-family: 'crunchyroll', sans-serif;
     font-size: calc(var(--font-size--normal) * 3);
     color: var(--color-crunpyroll-text);
     letter-spacing: .0425em;
@@ -321,9 +321,6 @@ dt {
     }
 }
 
-.index-logo {
-    margin-bottom: -30px
-}
 
 .sidebar-brand {
     margin-bottom: 10px;

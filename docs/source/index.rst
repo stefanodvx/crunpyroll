@@ -1,14 +1,3 @@
-.. raw:: html
-
-    <div>
-        <a href="/">
-            <div class="logo-index">
-               <img src="_static/images/logo-wide.png" alt="Crunpyroll">
-               <div class="crunpyroll-text crunpyroll-text-index">crunpyroll</div>
-            </div>
-        </a>
-    </div>
-
 Contents are organized into sections composed of self-contained topics which can be all accessed from the sidebar, or by
 following them in order using the :guilabel:`Next` button at the end of each page.
 You can also switch to Dark or Light theme or leave on Auto (follows system preferences) by using the dedicated button
