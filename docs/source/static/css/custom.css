@@ -73,6 +73,10 @@ body {
     display: none;
 }
 
+#furo-readthedocs-versions {
+    display: none;
+}
+
 h1,h2,h3,h4,h5,h6 {
     font-weight: 600;
     color: var(--color-title)
@@ -157,6 +161,10 @@ p.admonition-title:before {
 
 .related-pages a.next-page {
     padding: 6px 10px
+}
+
+.related-pages .title {
+    display: none;
 }
 
 .page-info .context {
