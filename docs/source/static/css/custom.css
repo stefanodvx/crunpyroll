@@ -160,7 +160,7 @@ p.admonition-title:before {
     width: 18em
 }
 
-.crunpyroll-text {
+.sidebar-brand-text {
     font-family: 'crunchyroll', sans-serif;
     font-size: calc(var(--font-size--normal) * 3);
     color: var(--color-crunpyroll-text);
@@ -170,20 +170,6 @@ p.admonition-title:before {
     font-weight: 700;
     display: inline
 }
-
-.crunpyroll-text-index {
-    font-size: 72px;
-    position: relative
-}
-
-.crunpyroll-logo-index {
-    display: inline
-}
-
-.crunpyroll-logo-index img {
-    width: 72px
-}
-
 
 @media(max-width: 67em) {
     .sidebar-drawer {
