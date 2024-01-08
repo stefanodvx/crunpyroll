@@ -166,9 +166,6 @@ p.admonition-title:before {
     color: var(--color-crunpyroll-text);
     letter-spacing: .0425em;
     position: relative;
-    top: -15px;
-    font-weight: 700;
-    display: inline
 }
 
 @media(max-width: 67em) {

@@ -1,3 +1,6 @@
+Welcome to Crunpyroll
+=====================
+
 Contents are organized into sections composed of self-contained topics which can be all accessed from the sidebar, or by
 following them in order using the :guilabel:`Next` button at the end of each page.
 You can also switch to Dark or Light theme or leave on Auto (follows system preferences) by using the dedicated button
