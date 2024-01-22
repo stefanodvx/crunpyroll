@@ -25,19 +25,31 @@ def parse_segments(repr: Dict, template: Dict) -> List[str]:
     base_url = repr["BaseURL"]
     representation_id = repr["@id"]
     start_number = int(template["@startNumber"])
+    initialization_url = format_segment_url(
+        url=base_url + template["@initialization"],
+        obj={"RepresentationID": representation_id}
+    )
+    segments.append(initialization_url)
     for segment in template["SegmentTimeline"]["S"]:
         repeat = int(segment.get("@r", 0)) + 1
         duration = int(segment.get("@d"))
         time += repeat * duration
         for _ in range(repeat):
             number = start_number + len(segments)
-            segment_url = base_url + template["@media"].replace(
-                "$Number$", str(number)
-            ).replace(
-                "$RepresentationID$", representation_id
+            segment_url = format_segment_url(
+                url=base_url + template["@media"],
+                obj={
+                    "Number": str(number),
+                    "RepresentationID": representation_id
+                }
             )
             segments.append(segment_url)
     return segments
+
+def format_segment_url(url: str, obj: Dict) -> str:
+    for key, value in obj.items():
+        url = url.replace(f"${key}$", value)
+    return url
 
 def get_date() -> datetime: 
     return datetime.utcnow()
