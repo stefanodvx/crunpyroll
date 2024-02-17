@@ -27,7 +27,7 @@ class Session:
 
     @property
     def is_authorized(self):
-        return (self.access_token and self.refresh_token)
+        return bool(self.access_token and self.refresh_token)
     
     @property
     def authorization_header(self):

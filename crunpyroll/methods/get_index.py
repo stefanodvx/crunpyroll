@@ -18,4 +18,4 @@ class GetIndex:
             method="GET",
             endpoint="index/v2",
         )
-        return types.Index(response)
+        return types.SessionIndex(response)
