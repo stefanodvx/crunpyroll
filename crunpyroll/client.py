@@ -70,14 +70,15 @@ class Client(Object, Methods):
         url: str = None,
         params: Dict = None,
         headers: Dict = None,
-        payload: Dict = None
+        payload: Dict = None,
+        include_session: bool = True,
     ) -> Optional[Dict]:
         if not url:
             url = "https://" + host.value + "/" + endpoint
         else:
             url = url
         api_headers = get_api_headers(headers)
-        if self.session.is_authorized:
+        if self.session.is_authorized and include_session:
             api_headers.update(self.session.authorization_header)
         response = await self.http.request(
             method=method,

@@ -55,7 +55,7 @@ class Session:
                 "device_id": DEVICE_ID,
                 "device_name": DEVICE_NAME,
                 "device_type": DEVICE_TYPE
-            }
+            }, include_session=False
         )
         self.access_token = response.get("access_token")
         self.refresh_token = response.get("refresh_token")
@@ -78,7 +78,7 @@ class Session:
                 "device_id": DEVICE_ID,
                 "device_name": DEVICE_NAME,
                 "device_type": DEVICE_TYPE
-            }
+            }, include_session=False
         )
         self.access_token = response.get("access_token")
         self.refresh_token = response.get("refresh_token")
