@@ -35,7 +35,7 @@ def parse_segments(repr: Dict, template: Dict) -> List[str]:
         duration = int(segment.get("@d"))
         time += repeat * duration
         for _ in range(repeat):
-            number = start_number + len(segments)
+            number = start_number + len(segments) - 1
             segment_url = format_segment_url(
                 url=base_url + template["@media"],
                 obj={
