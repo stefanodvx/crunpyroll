@@ -6,6 +6,8 @@ from .errors import CrunpyrollException
 from .enums import APIHost
 from .types.obj import Object
 
+from uuid import uuid4
+
 from typing import (
     Union, Optional,
     Dict
@@ -25,6 +27,15 @@ class Client(Object, Methods):
         locale (``str``, *optional*):
             The language to use in Crunchyroll.
             Default to 'en-US'
+        device_id (``str``, *optional*):
+            The uuid to use, in string form, e.g. '01234567-89AB-CDEF-0123-456789ABCDEF' where the 32 hexadecimal digits represent the UUID.
+            Default to a random UUID
+        device_name (``str``, *optional*):
+            The device name to use (Crunchyroll app uses [About phone → Device name] field).
+            Default to 'My Phone'
+        device_type (``str``, *optional*):
+            The device type to use (Crunchyroll app uses Manufacturer + Model).
+            Default to 'Xiaomi Redmi Note 10'
         proxies (``str`` | ``dict``, *optional*):
             Proxies for HTTP requests.
             Default to None
@@ -35,12 +46,17 @@ class Client(Object, Methods):
         email: str,
         password: str,
         locale: str = "en-US",
+        device_id: str = str(uuid4()),
+        device_name: str = "My Phone",
+        device_type: str = "Xiaomi Redmi Note 10",
         proxies: Union[Dict, str] = None
     ) -> None:
         self.email: str = email
         self.password: str = password
         self.locale: str = locale
-
+        self.device_id: str = device_id
+        self.device_name: str = device_name
+        self.device_type: str = device_type
         self.http = httpx.AsyncClient(proxies=proxies, timeout=15)
         self.session = Session(self)
 

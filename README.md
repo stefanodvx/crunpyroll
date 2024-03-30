@@ -35,10 +35,15 @@ The documentation page undergoes automatic updates with each push. To access the
 import crunpyroll
 import asyncio
 
+from uuid import uuid4
+
 client = crunpyroll.Client(
     email="email",
     password="password",
-    locale="it-IT"
+    locale="it-IT",
+    device_id=str(uuid4()),
+    device_name="My Phone",
+    device_type="Xiaomi Redmi Note 10",
 )
 async def main():
     # Start client and login
