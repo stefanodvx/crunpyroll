@@ -22,8 +22,11 @@ class Client(Object, Methods):
             Email or username of the account.
         password (``str``):
             Password of the account.
+        preferred_audio_language (``str``, *optional*):
+            The audio language to use in Crunchyroll.
+            Default to 'ja-JP'
         locale (``str``, *optional*):
-            The language to use in Crunchyroll.
+            The locale to use in Crunchyroll.
             Default to 'en-US'
         proxies (``str`` | ``dict``, *optional*):
             Proxies for HTTP requests.
@@ -34,11 +37,13 @@ class Client(Object, Methods):
         *,
         email: str,
         password: str,
+        preferred_audio_language: str = "ja-JP",
         locale: str = "en-US",
         proxies: Union[Dict, str] = None
     ) -> None:
         self.email: str = email
         self.password: str = password
+        self.preferred_audio_language: str = preferred_audio_language
         self.locale: str = locale
 
         self.http = httpx.AsyncClient(proxies=proxies, timeout=15)

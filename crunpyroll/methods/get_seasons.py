@@ -7,6 +7,7 @@ class GetSeasons:
         self: "crunpyroll.Client",
         series_id: str,
         *,
+        preferred_audio_language: str = None,
         locale: str = None,
     ) -> "types.SeasonsQuery":
         """
@@ -28,7 +29,8 @@ class GetSeasons:
             method="GET",
             endpoint="content/v2/cms/series/" + series_id + "/seasons",
             params={
-                "locale": locale or self.locale
+                "preferred_audio_language": preferred_audio_language or self.preferred_audio_language,
+                "locale": locale or self.locale,
             }
         )
         return types.SeasonsQuery.parse(response)

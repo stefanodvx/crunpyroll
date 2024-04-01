@@ -38,6 +38,7 @@ import asyncio
 client = crunpyroll.Client(
     email="email",
     password="password",
+    preferred_audio_language="ja-JP",
     locale="it-IT"
 )
 async def main():
@@ -47,7 +48,7 @@ async def main():
     query = await client.search("Attack On Titan")
     series_id = query.items[0].id
     print(series_id)
-    # Retrieve all seasons of the series
+    # Retrieve all seasons (with the preferred audio language) of the series
     seasons = await client.get_seasons(series_id)
     print(seasons)
 
