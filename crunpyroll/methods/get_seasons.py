@@ -16,6 +16,9 @@ class GetSeasons:
         Parameters:
             series_id (``str``):
                 Unique identifier of the series.
+            preferred_audio_language (``str``, *optional*):
+                Audio language request for different results.
+                Default to the one used in Client.
             locale (``str``, *optional*):
                 Localize request for different results.
                 Default to the one used in Client.
