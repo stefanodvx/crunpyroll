@@ -2,7 +2,7 @@ from typing import Optional, List, Dict
 from datetime import datetime
 from uuid import uuid4
 
-PUBLIC_TOKEN = "b2VkYXJteHN0bGgxanZhd2ltbnE6OWxFaHZIWkpEMzJqdVY1ZFc5Vk9TNTdkb3BkSnBnbzE="
+PUBLIC_TOKEN = "bm12anNoZmtueW14eGtnN2ZiaDk6WllJVnJCV1VQYmNYRHRiRDIyVlNMYTZiNFdRb3Mzelg="
 
 DEVICE_NAME = "RMX2170"
 DEVICE_TYPE = "realme RMX2170"
@@ -16,7 +16,7 @@ def get_api_headers(headers: Optional[Dict]) -> Dict:
     return {
         "Connection": "Keep-Alive",
         "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": "Crunchyroll/3.46.2 Android/13 okhttp/4.12.0"
+        "User-Agent": "Crunchyroll/3.54.0 Android/14 okhttp/4.12.0"
     } | (headers or {})
 
 def parse_segments(repr: Dict, template: Dict) -> List[str]:
