@@ -1,6 +1,7 @@
 from .series import Series
 from .seasons import SeasonsQuery, Season
 from .episodes import EpisodesQuery, Episode
+from .objects import ObjectsQuery
 from .movies import Movie
 from .search import SearchQuery
 from .images import Image, Images

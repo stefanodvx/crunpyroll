@@ -9,6 +9,9 @@ class ContentType(Enum):
     SERIES = "series"
     "Content is a series."
 
+    SEASON = "season"
+    "Content is a season."
+
     EPISODE = "episode"
     "Content is an episode."
 
