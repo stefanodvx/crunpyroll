@@ -50,7 +50,11 @@ class Client(Object, Methods):
         return await self.session.authorize()
 
     @staticmethod
-    def parse_response(response: httpx.Response) -> Optional[Union[Dict, str]]:
+    def parse_response(
+        response: httpx.Response,
+        *,
+        method: str = "GET",
+    ) -> Optional[Union[Dict, str]]:
         status_code = response.status_code
         text_content = response.text
         message = f"[{status_code}] {text_content}"
@@ -58,9 +62,11 @@ class Client(Object, Methods):
             content = response.json()
         except json.JSONDecodeError:
             content = response.text
-        if status_code != 200:
-            raise CrunpyrollException(message)
-        return content
+        if status_code == 200:
+            return content
+        if status_code == 204 and (method == "PUT" or method == "DELETE"):
+            return content
+        raise CrunpyrollException(message)
 
     async def api_request(
         self,
@@ -87,7 +93,7 @@ class Client(Object, Methods):
             headers=api_headers,
             data=payload
         )
-        return Client.parse_response(response)
+        return Client.parse_response(response, method=method)
     
     async def manifest_request(
         self,

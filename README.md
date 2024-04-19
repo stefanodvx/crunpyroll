@@ -89,6 +89,10 @@ cdm.parse_license(session_id, license)
 for key in cdm.get_keys(session_id, "CONTENT"):
     print(f"{key.kid.hex}:{key.key.hex()}")
 cdm.close(session_id)
+await client.delete_active_stream(
+    streams.media_id,
+    token=streams.token
+)
 ```
 Output:
 ```bash
