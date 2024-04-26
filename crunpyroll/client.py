@@ -1,5 +1,10 @@
 from .methods import Methods
-from .utils import get_api_headers
+from .utils import (
+    get_api_headers,
+    DEVICE_ID,
+    DEVICE_NAME,
+    DEVICE_TYPE
+)
 
 from .session import Session
 from .errors import CrunpyrollException
@@ -22,9 +27,19 @@ class Client(Object, Methods):
             Email or username of the account.
         password (``str``):
             Password of the account.
+        preferred_audio_language (``str``, *optional*):
+            The audio language to use in Crunchyroll.
+            Default to 'ja-JP'
         locale (``str``, *optional*):
             The language to use in Crunchyroll.
             Default to 'en-US'
+        device_id (``str``, *optional*):
+            The device identifier to use, in string form, e.g. '01234567-89AB-CDEF-0123-456789ABCDEF' where the 32 hexadecimal digits represent the UUID.
+            Default to a random UUID
+        device_name (``str``, *optional*):
+            The device name to use (Crunchyroll app uses [About phone → Device name] field).
+        device_type (``str``, *optional*):
+            The device type to use (Crunchyroll app uses Manufacturer + Model).
         proxies (``str`` | ``dict``, *optional*):
             Proxies for HTTP requests.
             Default to None
@@ -34,12 +49,20 @@ class Client(Object, Methods):
         *,
         email: str,
         password: str,
+        preferred_audio_language: str = "ja-JP",
         locale: str = "en-US",
+        device_id: str = DEVICE_ID,
+        device_name: str = DEVICE_NAME,
+        device_type: str = DEVICE_TYPE,
         proxies: Union[Dict, str] = None
     ) -> None:
         self.email: str = email
         self.password: str = password
+        self.preferred_audio_language: str = preferred_audio_language
         self.locale: str = locale
+        self.device_id: str = device_id
+        self.device_name: str = device_name
+        self.device_type: str = device_type
 
         self.http = httpx.AsyncClient(proxies=proxies, timeout=15)
         self.session = Session(self)
@@ -50,7 +73,11 @@ class Client(Object, Methods):
         return await self.session.authorize()
 
     @staticmethod
-    def parse_response(response: httpx.Response) -> Optional[Union[Dict, str]]:
+    def parse_response(
+        response: httpx.Response,
+        *,
+        method: str = "GET",
+    ) -> Optional[Union[Dict, str]]:
         status_code = response.status_code
         text_content = response.text
         message = f"[{status_code}] {text_content}"
@@ -58,9 +85,11 @@ class Client(Object, Methods):
             content = response.json()
         except json.JSONDecodeError:
             content = response.text
-        if status_code != 200:
-            raise CrunpyrollException(message)
-        return content
+        if status_code == 200:
+            return content
+        if status_code == 204 and method in {"PUT", "DELETE"}:
+            return content
+        raise CrunpyrollException(message)
 
     async def api_request(
         self,
@@ -87,7 +116,7 @@ class Client(Object, Methods):
             headers=api_headers,
             data=payload
         )
-        return Client.parse_response(response)
+        return Client.parse_response(response, method=method)
     
     async def manifest_request(
         self,

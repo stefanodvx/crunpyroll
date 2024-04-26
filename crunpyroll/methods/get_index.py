@@ -5,7 +5,7 @@ import crunpyroll
 class GetIndex:
     async def get_index(
         self: "crunpyroll.Client",
-    ) -> "types.Index":
+    ) -> "types.SessionIndex":
         """
         Get session index. It's unlikely that you would use this method.
 

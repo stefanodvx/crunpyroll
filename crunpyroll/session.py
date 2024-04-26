@@ -2,10 +2,7 @@ from datetime import datetime, timedelta
 
 from .utils import (
     get_date,
-    PUBLIC_TOKEN,
-    DEVICE_NAME,
-    DEVICE_TYPE,
-    DEVICE_ID
+    PUBLIC_TOKEN
 )
 
 from .errors import ClientNotAuthorized
@@ -52,9 +49,9 @@ class Session:
                 "password": self._client.password,
                 "grant_type": "password",
                 "scope": "offline_access",
-                "device_id": DEVICE_ID,
-                "device_name": DEVICE_NAME,
-                "device_type": DEVICE_TYPE
+                "device_id": self._client.device_id,
+                "device_name": self._client.device_name,
+                "device_type": self._client.device_type
             }, include_session=False
         )
         self.access_token = response.get("access_token")
@@ -75,9 +72,9 @@ class Session:
                 "refresh_token": self.refresh_token,
                 "grant_type": "refresh_token",
                 "scope": "offline_access",
-                "device_id": DEVICE_ID,
-                "device_name": DEVICE_NAME,
-                "device_type": DEVICE_TYPE
+                "device_id": self._client.device_id,
+                "device_name": self._client.device_name,
+                "device_type": self._client.device_type
             }, include_session=False
         )
         self.access_token = response.get("access_token")
