@@ -23,7 +23,7 @@ class Manifest(Object):
         audio_streams (List of :obj:`~crunpyroll.types.ManifestAudioStream`):
             List of every audio stream available.
 
-        subs_streams (List of :obj:`~crunpyroll.types.SubtitleStream`):
+        subs_streams (List of :obj:`~crunpyroll.types.SubtitlesStream`):
             List of every subtitle stream available
 
         content_protection (:obj:`~crunpyroll.types.ContentProtection`):
