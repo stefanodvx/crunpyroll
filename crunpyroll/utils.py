@@ -2,13 +2,24 @@ from typing import Optional, List, Dict
 from datetime import datetime
 from uuid import uuid4
 
+import os
+
 PUBLIC_TOKEN = "bm12anNoZmtueW14eGtnN2ZiaDk6WllJVnJCV1VQYmNYRHRiRDIyVlNMYTZiNFdRb3Mzelg="
 
 APP_VERSION = "3.54.0"
 
 DEVICE_NAME = "RMX2170"
 DEVICE_TYPE = "realme RMX2170"
-DEVICE_ID = str(uuid4())
+
+# Store DEVICE ID to avoid creating a new one every time
+DEVICE_ID_PATH = os.path.join(os.environ.get("HOME"),".crunpyroll_device_id")
+if os.path.isfile(DEVICE_ID_PATH):
+    with open(DEVICE_ID_PATH, "r", encoding='utf-8') as f:
+        DEVICE_ID = f.read()
+else:
+    DEVICE_ID = str(uuid4())
+    with open(DEVICE_ID_PATH,"w",encoding="utf-8") as f:
+        f.write(DEVICE_ID)
 
 WIDEVINE_UUID = "urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed"
 PLAYREADY_UUID = "urn:uuid:9a04f079-9840-4286-ab92-e65be0885f95"
