@@ -1,4 +1,5 @@
 from .search import Search
+from .browse import Browse
 from .get_index import GetIndex
 from .get_profile import GetProfile
 from .get_series import GetSeries
@@ -11,8 +12,10 @@ from .get_license import GetLicense
 from .get_old_streams import GetOldStreams
 from .delete_active_stream import DeleteActiveStream
 
+
 class Methods(
     Search,
+    Browse,
     GetIndex,
     GetProfile,
     GetSeries,

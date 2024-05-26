@@ -3,6 +3,7 @@ from .seasons import SeasonsQuery, Season
 from .episodes import EpisodesQuery, Episode
 from .movies import Movie
 from .search import SearchQuery
+from .browse import BrowseQuery
 from .images import Image, Images
 from .cms import CMS
 from .index import SessionIndex
