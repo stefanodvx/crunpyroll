@@ -17,5 +17,5 @@ setuptools.setup(
     },
     install_requires=["httpx", "xmltodict"],
     packages=setuptools.find_packages(),
-    python_requires=">=3.7",
+    python_requires=">=3.10",
 )
