@@ -2,9 +2,9 @@ from typing import Optional, List, Dict
 from datetime import datetime
 from uuid import uuid4
 
-PUBLIC_TOKEN = "bm12anNoZmtueW14eGtnN2ZiaDk6WllJVnJCV1VQYmNYRHRiRDIyVlNMYTZiNFdRb3Mzelg="
+PUBLIC_TOKEN = "d2piMV90YThta3Y3X2t4aHF6djc6MnlSWlg0Y0psX28yMzRqa2FNaXRTbXNLUVlGaUpQXzU="
 
-APP_VERSION = "3.54.0"
+APP_VERSION = "3.59.0"
 
 DEVICE_NAME = "RMX2170"
 DEVICE_TYPE = "realme RMX2170"
