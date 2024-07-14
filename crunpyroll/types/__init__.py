@@ -12,7 +12,6 @@ from .streams import MediaStreams
 from .subtitles import SubtitlesStream
 from .hardsub import HardsubStream
 from .objects import ObjectsQuery
-from .old_streams import OldMediaStreams
 from .index import SessionIndex
 from .manifest import Manifest, ManifestVideoStream, ManifestAudioStream
 from .drm import DRM, ContentProtection

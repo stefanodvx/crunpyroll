@@ -11,6 +11,7 @@ class DeleteActiveStream:
     ) -> bool:
         """
         Delete an active stream.
+        
         Parameters:
             media_id (``str``):
                 Unique identifier of the media.

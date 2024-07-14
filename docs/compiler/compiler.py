@@ -65,13 +65,13 @@ if "__main__" == __name__:
         template=METHODS_TEMPLATE,
         keys=[
             "search",
+            "delete_active_stream",
             "get_series",
             "get_seasons",
             "get_episodes",
             "get_profile",
             "get_index",
             "get_streams",
-            "get_old_streams",
             "get_license",
             "get_manifest"
         ]
@@ -96,7 +96,6 @@ if "__main__" == __name__:
             "MediaStreams",
             "SubtitlesStream",
             "HardsubStream",
-            "OldMediaStreams",
             "Manifest",
             "ManifestVideoStream",
             "ManifestAudioStream",

@@ -104,8 +104,6 @@ class Client(Object, Methods):
     ) -> Optional[Dict]:
         if not url:
             url = "https://" + host.value + "/" + endpoint
-        else:
-            url = url
         api_headers = get_api_headers(headers)
         if self.session.is_authorized and include_session:
             api_headers.update(self.session.authorization_header)
