@@ -8,7 +8,6 @@ from .get_objects import GetObjects
 from .get_streams import GetStreams
 from .get_manifest import GetManifest
 from .get_license import GetLicense
-from .get_old_streams import GetOldStreams
 from .delete_active_stream import DeleteActiveStream
 
 class Methods(
@@ -21,7 +20,6 @@ class Methods(
     GetStreams,
     GetManifest,
     GetLicense,
-    GetOldStreams,
     GetObjects,
     DeleteActiveStream
 ):
