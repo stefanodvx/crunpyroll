@@ -21,7 +21,6 @@ class Methods(
     GetStreams,
     GetManifest,
     GetLicense,
-    GetOldStreams,
     GetObjects,
     DeleteActiveStream
 ):
