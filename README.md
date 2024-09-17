@@ -97,7 +97,3 @@ Output:
 ```
 > [!TIP]
 > Decryption keys are universally applicable to both video and audio streams, maintaining consistency across all available formats.
-
----
-
-> Stay informed about the latest developments by joining our [Telegram Channel](https://t.me/crunpyroll).
