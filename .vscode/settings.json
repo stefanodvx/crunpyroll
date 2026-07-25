@@ -1,0 +1,4 @@
+{
+    "containers.containerCommand": "podman-remote",
+    "containers.containerClient": "com.microsoft.visualstudio.containers.podman"
+}

@@ -1,2 +1,2 @@
-httpx
+httpx<0.28
 xmltodict

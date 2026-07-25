@@ -15,3 +15,4 @@ from .objects import ObjectsQuery
 from .index import SessionIndex
 from .manifest import Manifest, ManifestVideoStream, ManifestAudioStream
 from .drm import DRM, ContentProtection
+from .history import HistoryQuery, History

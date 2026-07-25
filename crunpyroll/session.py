@@ -21,6 +21,7 @@ class Session:
         self.access_token: str = None
         self.refresh_token: str = None
         self.expiration: datetime = None
+        self.account_id: str = None
 
     @property
     def is_authorized(self):
@@ -42,7 +43,7 @@ class Session:
             method="POST",
             endpoint="auth/v1/token",
             headers={
-                "Authorization": f"Basic {PUBLIC_TOKEN}"
+                "Authorization": f"Basic {self._client.public_token or PUBLIC_TOKEN}"
             },
             payload={
                 "username": self._client.email,
@@ -59,6 +60,7 @@ class Session:
         self.expiration = get_date() + timedelta(
             seconds=response.get("expires_in")
         )
+        self.account_id = response.get("account_id")
         return True
     
     async def refresh(self) -> Optional[bool]:
@@ -66,7 +68,7 @@ class Session:
             method="POST",
             endpoint="auth/v1/token",
             headers={
-                "Authorization": f"Basic {PUBLIC_TOKEN}"
+                "Authorization": f"Basic {self._client.public_token or PUBLIC_TOKEN}"
             },
             payload={
                 "refresh_token": self.refresh_token,

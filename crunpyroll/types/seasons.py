@@ -45,6 +45,9 @@ class Season(Content):
         season_number (``int``):
             Number of the season.
 
+        season_sequence_number (``int``):
+            Sequential number of the season.
+
         episode_count (``int``):
             Episode count of the season.
 
@@ -83,6 +86,7 @@ class Season(Content):
         self.slug: str = data.get("slug_title")
         self.description: str = data.get("description")
         self.season_number: int = data.get("season_number")
+        self.season_sequence_number: int = data.get("season_sequence_number")
         self.episode_count: int = data.get("number_of_episodes")
         self.series_id: str = data.get("series_id")
         self.series_slug: str = data.get("series_slug_title")
